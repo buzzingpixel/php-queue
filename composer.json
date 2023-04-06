@@ -1,12 +1,16 @@
 {
-    "name": "buzzingpixel/mission-control-idp",
+    "name": "buzzingpixel/php-queue",
     "license": "Apache-2.0",
     "suggest": {
         "ext-redis": "Required to use the Redis queue driver"
     },
     "require": {
         "php": "^8.2",
+        "lcobucci/clock": "^3.1",
         "psr/cache": "^3.0",
+        "psr/clock": "^1.0",
+        "psr/log": "^2",
+        "ramsey/uuid": "^4.7",
         "symfony/cache": "^6.2"
     },
     "require-dev": {
