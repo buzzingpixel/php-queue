@@ -2,7 +2,9 @@
     "name": "buzzingpixel/php-queue",
     "license": "Apache-2.0",
     "suggest": {
-        "ext-redis": "Required to use the Redis queue driver"
+        "ext-redis": "Required to use the Redis queue driver",
+        "symfony/console": "If you're using Symfony Console, a buzzingpixel-queue:consume-next command is supplied",
+        "mnapoli/silly": "If you're using the Silly Console app, a buzzingpixel-queue:consume-next command is supplied"
     },
     "require": {
         "php": "^8.2",
@@ -15,10 +17,12 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "^11.0.0",
+        "mnapoli/silly": "^1.8",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-deprecation-rules": "^1.1",
         "phpstan/phpstan-strict-rules": "^1.5",
         "squizlabs/php_codesniffer": "^3.6",
+        "symfony/console": "^6.2",
         "symfony/var-dumper": "^6.2"
     },
     "autoload": {
