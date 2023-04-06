@@ -1,0 +1,32 @@
+{
+    "name": "buzzingpixel/mission-control-idp",
+    "license": "Apache-2.0",
+    "suggest": {
+        "ext-redis": "Required to use the Redis queue driver"
+    },
+    "require": {
+        "php": "^8.2",
+        "psr/cache": "^3.0",
+        "symfony/cache": "^6.2"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^11.0.0",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-strict-rules": "^1.5",
+        "squizlabs/php_codesniffer": "^3.6",
+        "symfony/var-dumper": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "BuzzingPixel\\Queue\\": "src"
+        }
+    },
+    "config": {
+        "bin-compat": "full",
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
