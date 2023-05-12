@@ -57,6 +57,12 @@ readonly class RedisQueueHandler implements QueueHandler
         $this->queueNames = $queueNames ?? new QueueNamesDefault();
     }
 
+    /** @inheritDoc */
+    public function getAvailableQueues(): array
+    {
+        return $this->queueNames->getAvailableQueues();
+    }
+
     public function jobsExpiresAfterSeconds(): int
     {
         return $this->jobsExpireAfterSeconds;

@@ -10,6 +10,9 @@ interface QueueHandler
 
     public function jobsExpiresAfterSeconds(): int;
 
+    /** @return string[] */
+    public function getAvailableQueues(): array;
+
     public function enqueue(
         QueueItem $queueItem,
         string $queueName = 'default',
