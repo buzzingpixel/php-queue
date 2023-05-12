@@ -8,6 +8,8 @@ use BuzzingPixel\Queue\NoOpLogger;
 use BuzzingPixel\Queue\QueueHandler;
 use BuzzingPixel\Queue\QueueItem;
 use BuzzingPixel\Queue\QueueItemJob;
+use BuzzingPixel\Queue\QueueItemWithKey;
+use BuzzingPixel\Queue\QueueItemWithKeyCollection;
 use BuzzingPixel\Queue\QueueNames;
 use BuzzingPixel\Queue\QueueNamesDefault;
 use DateTimeZone;
@@ -29,6 +31,8 @@ use function count;
 use function explode;
 use function implode;
 use function is_string;
+use function mb_strlen;
+use function mb_substr;
 use function sort;
 
 readonly class RedisQueueHandler implements QueueHandler
@@ -102,6 +106,40 @@ readonly class RedisQueueHandler implements QueueHandler
             ],
             $this->getAvailableQueues(),
         ));
+    }
+
+    public function getEnqueuedItems(
+        string $queueName = 'default',
+    ): QueueItemWithKeyCollection {
+        $redisNamespace = $this->getRedisNamespace();
+
+        $enqueuedKeys = $this->redis->keys(
+            $redisNamespace . 'queue_' . $queueName . '_*',
+        );
+
+        if ($redisNamespace !== '') {
+            $enqueuedKeysNoNamespace = [];
+
+            foreach ($enqueuedKeys as $key) {
+                $enqueuedKeysNoNamespace[] = mb_substr(
+                    $key,
+                    mb_strlen($redisNamespace),
+                );
+            }
+        } else {
+            $enqueuedKeysNoNamespace = $enqueuedKeys;
+        }
+
+        $items = $this->cachePool->getItems($enqueuedKeysNoNamespace);
+
+        $queueItems = [];
+
+        foreach ($items as $item) {
+            $queueItems[] = $item->get();
+        }
+
+        /** @phpstan-ignore-next-line */
+        return new QueueItemCollection($queueItems);
     }
 
     public function enqueue(

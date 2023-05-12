@@ -4,26 +4,35 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue;
 
-use RuntimeException;
-
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-class QueueItem
+class QueueItemWithKey
 {
+    public static function fromQueueItem(
+        string $key,
+        QueueItem $queueItem,
+    ): self {
+        return new self(
+            $key,
+            $queueItem->handle,
+            $queueItem->name,
+            $queueItem->jobs,
+        );
+    }
+
     public function __construct(
+        public string $key,
         public string $handle,
         public string $name,
         public QueueItemJobCollection $jobs,
     ) {
-        if ($this->handle === '') {
-            throw new RuntimeException('$handle must be provided');
-        }
     }
 
     /** @phpstan-ignore-next-line */
     public function asArray(): array
     {
         return [
+            'key' => $this->key,
             'handle' => $this->handle,
             'name' => $this->name,
             'jobs' => $this->jobs->asArray(),

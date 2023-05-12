@@ -20,6 +20,10 @@ interface QueueHandler
     /** @return array<array<string, string|int>> */
     public function getAvailableQueuesWithTotals(): array;
 
+    public function getEnqueuedItems(
+        string $queueName = 'default',
+    ): QueueItemWithKeyCollection;
+
     public function enqueue(
         QueueItem $queueItem,
         string $queueName = 'default',

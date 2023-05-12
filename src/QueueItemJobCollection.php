@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue;
 
-// phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
-
 use RuntimeException;
 
 use function array_map;
 use function array_values;
 use function count;
+
+// phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
 class QueueItemJobCollection
 {
@@ -36,5 +36,13 @@ class QueueItemJobCollection
     public function map(callable $callback): array
     {
         return array_map($callback, $this->queueItemJobs);
+    }
+
+    /** @phpstan-ignore-next-line */
+    public function asArray(): array
+    {
+        return $this->map(
+            static fn (QueueItemJob $job) => $job->asArray(),
+        );
     }
 }

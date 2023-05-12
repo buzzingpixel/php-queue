@@ -18,4 +18,14 @@ class QueueItemJob
         public array $context = [],
     ) {
     }
+
+    /** @phpstan-ignore-next-line */
+    public function asArray(): array
+    {
+        return [
+            'class' => $this->class,
+            'method' => $this->method,
+            'context' => $this->context,
+        ];
+    }
 }
