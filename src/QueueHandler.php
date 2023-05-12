@@ -13,6 +13,13 @@ interface QueueHandler
     /** @return string[] */
     public function getAvailableQueues(): array;
 
+    public function getTotalItemsInAllQueues(): int;
+
+    public function getTotalItemsInQueue(string $queueName = 'default'): int;
+
+    /** @return array<array<string, string|int>> */
+    public function getAvailableQueuesWithTotals(): array;
+
     public function enqueue(
         QueueItem $queueItem,
         string $queueName = 'default',

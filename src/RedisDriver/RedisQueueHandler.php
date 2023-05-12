@@ -23,6 +23,8 @@ use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Throwable;
 
+use function array_map;
+use function array_values;
 use function count;
 use function explode;
 use function implode;
@@ -57,15 +59,49 @@ readonly class RedisQueueHandler implements QueueHandler
         $this->queueNames = $queueNames ?? new QueueNamesDefault();
     }
 
+    public function jobsExpiresAfterSeconds(): int
+    {
+        return $this->jobsExpireAfterSeconds;
+    }
+
     /** @inheritDoc */
     public function getAvailableQueues(): array
     {
         return $this->queueNames->getAvailableQueues();
     }
 
-    public function jobsExpiresAfterSeconds(): int
+    public function getTotalItemsInAllQueues(): int
     {
-        return $this->jobsExpireAfterSeconds;
+        $enqueuedKeys = $this->redis->keys(
+            $this->getRedisNamespace() . 'queue_*',
+        );
+
+        return count($enqueuedKeys);
+    }
+
+    public function getTotalItemsInQueue(string $queueName = 'default'): int
+    {
+        $redisNamespace = $this->getRedisNamespace();
+
+        $enqueuedKeys = $this->redis->keys(
+            $redisNamespace . 'queue_' . $queueName . '_*',
+        );
+
+        return count($enqueuedKeys);
+    }
+
+    /** @return array<array<string, string|int>> */
+    public function getAvailableQueuesWithTotals(): array
+    {
+        return array_values(array_map(
+            fn (string $queue) => [
+                'queue' => $queue,
+                'totalItemsInQueue' => $this->getTotalItemsInQueue(
+                    $queue,
+                ),
+            ],
+            $this->getAvailableQueues(),
+        ));
     }
 
     public function enqueue(
@@ -116,20 +152,10 @@ readonly class RedisQueueHandler implements QueueHandler
             ['queueName' => $queueName],
         );
 
-        $redisNamespaceProperty = new ReflectionProperty(
-            AbstractAdapter::class,
-            'namespace',
-        );
-
-        /** @noinspection PhpExpressionResultUnusedInspection */
-        $redisNamespaceProperty->setAccessible(true);
-
-        $namespace = $redisNamespaceProperty->getValue($this->cachePool);
-
-        $namespace = is_string($namespace) ? $namespace : '';
+        $redisNamespace = $this->getRedisNamespace();
 
         $enqueuedKeys = $this->redis->keys(
-            $namespace . 'queue_' . $queueName . '_*',
+            $redisNamespace . 'queue_' . $queueName . '_*',
         );
 
         sort($enqueuedKeys);
@@ -254,5 +280,20 @@ readonly class RedisQueueHandler implements QueueHandler
 
             $this->redis->del($consumeKey);
         }
+    }
+
+    private function getRedisNamespace(): string
+    {
+        $redisNamespaceProperty = new ReflectionProperty(
+            AbstractAdapter::class,
+            'namespace',
+        );
+
+        /** @noinspection PhpExpressionResultUnusedInspection */
+        $redisNamespaceProperty->setAccessible(true);
+
+        $namespace = $redisNamespaceProperty->getValue($this->cachePool);
+
+        return is_string($namespace) ? $namespace : '';
     }
 }
