@@ -130,16 +130,17 @@ readonly class RedisQueueHandler implements QueueHandler
             $enqueuedKeysNoNamespace = $enqueuedKeys;
         }
 
-        $items = $this->cachePool->getItems($enqueuedKeysNoNamespace);
-
         $queueItems = [];
 
-        foreach ($items as $item) {
-            $queueItems[] = $item->get();
+        foreach ($enqueuedKeysNoNamespace as $key) {
+            $queueItems[] = QueueItemWithKey::fromQueueItem(
+                $key,
+                /** @phpstan-ignore-next-line */
+                $this->cachePool->getItem($key)->get(),
+            );
         }
 
-        /** @phpstan-ignore-next-line */
-        return new QueueItemCollection($queueItems);
+        return new QueueItemWithKeyCollection($queueItems);
     }
 
     public function enqueue(
@@ -318,6 +319,11 @@ readonly class RedisQueueHandler implements QueueHandler
 
             $this->redis->del($consumeKey);
         }
+    }
+
+    public function deQueue(string $key): bool
+    {
+        return $this->cachePool->deleteItem($key);
     }
 
     private function getRedisNamespace(): string

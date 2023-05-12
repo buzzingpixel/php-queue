@@ -29,6 +29,8 @@ interface QueueHandler
         string $queueName = 'default',
     ): bool;
 
+    public function deQueue(string $key): bool;
+
     public function consumeNext(
         string $queueName = 'default',
     ): void;
