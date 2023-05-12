@@ -326,6 +326,17 @@ readonly class RedisQueueHandler implements QueueHandler
         return $this->cachePool->deleteItem($key);
     }
 
+    public function deQueueAllItems(string $queueName = 'default'): bool
+    {
+        $redisNamespace = $this->getRedisNamespace();
+
+        $enqueuedKeys = $this->redis->keys(
+            $redisNamespace . 'queue_' . $queueName . '_*',
+        );
+
+        return (bool) $this->redis->del($enqueuedKeys);
+    }
+
     private function getRedisNamespace(): string
     {
         $redisNamespaceProperty = new ReflectionProperty(
