@@ -117,6 +117,8 @@ readonly class RedisQueueHandler implements QueueHandler
             $redisNamespace . 'queue_' . $queueName . '_*',
         );
 
+        sort($enqueuedKeys);
+
         if ($redisNamespace !== '') {
             $enqueuedKeysNoNamespace = [];
 
