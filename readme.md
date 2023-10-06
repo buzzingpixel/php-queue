@@ -25,3 +25,7 @@ Ultimately, you need one or more runners that calls the `consumeNext` method on 
 This package provides a Symfony console command which you can use if you're using [Symfony Console](https://symfony.com/doc/current/components/console.html) (or [Silly](https://github.com/mnapoli/silly), which is my preference). Load up `\BuzzingPixel\Queue\Framework\QueueConsumeNextSymfonyCommand` through your container, and add it to your Symfony console app.
 
 Then run the command `buzzingpixel-queue:consume-next` through your CLI app. That consumes the `default` queue name. For consuming other queue names, use the `--queue-name=MY_QUEUE_NAME` argument.
+
+##### Changing the command name
+
+If you'd like to change the command name, you can do so through the `name` constructor parameter of the `QueueConsumeNextSymfonyCommand` class. Configure your DI to provide the command name you would prefer.

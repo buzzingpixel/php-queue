@@ -12,15 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class QueueConsumeNextSymfonyCommand extends Command
 {
-    public function __construct(private readonly QueueHandler $queueHandler)
-    {
-        parent::__construct();
+    public function __construct(
+        private readonly QueueHandler $queueHandler,
+        public string|null $name = 'buzzingpixel-queue:consume-next',
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void
     {
-        $this->setName('buzzingpixel-queue:consume-next');
-
         $this->addOption(
             'queue-name',
             '',
