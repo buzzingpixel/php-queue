@@ -13,6 +13,8 @@ use BuzzingPixel\Queue\QueueItemWithKey;
 use BuzzingPixel\Queue\QueueItemWithKeyCollection;
 use BuzzingPixel\Queue\QueueNames;
 use BuzzingPixel\Queue\QueueNamesDefault;
+use BuzzingPixel\Queue\QueueNameWithItems;
+use BuzzingPixel\Queue\QueueNameWithItemsCollection;
 use DateTimeZone;
 use Lcobucci\Clock\SystemClock;
 use Psr\Clock\ClockInterface;
@@ -144,6 +146,20 @@ readonly class RedisQueueHandler implements QueueHandler
         }
 
         return new QueueItemWithKeyCollection($queueItems);
+    }
+
+    public function getEnqueuedItemsFromAllQueues(): QueueNameWithItemsCollection
+    {
+        $queues = [];
+
+        foreach ($this->queueNames->getAvailableQueues() as $queue) {
+            $queues[] = new QueueNameWithItems(
+                $queue,
+                $this->getEnqueuedItems($queue),
+            );
+        }
+
+        return new QueueNameWithItemsCollection($queues);
     }
 
     public function enqueue(

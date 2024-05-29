@@ -6,6 +6,7 @@ namespace BuzzingPixel\Queue;
 
 use function array_map;
 use function array_values;
+use function count;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
@@ -35,5 +36,10 @@ class QueueItemWithKeyCollection
         return $this->map(
             static fn (QueueItemWithKey $item) => $item->asArray(),
         );
+    }
+
+    public function count(): int
+    {
+        return count($this->queueItems);
     }
 }
