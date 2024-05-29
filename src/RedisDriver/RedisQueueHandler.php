@@ -8,6 +8,7 @@ use BuzzingPixel\Queue\NoOpLogger;
 use BuzzingPixel\Queue\QueueHandler;
 use BuzzingPixel\Queue\QueueItem;
 use BuzzingPixel\Queue\QueueItemJob;
+use BuzzingPixel\Queue\QueueItemJobCollection;
 use BuzzingPixel\Queue\QueueItemWithKey;
 use BuzzingPixel\Queue\QueueItemWithKeyCollection;
 use BuzzingPixel\Queue\QueueNames;
@@ -177,6 +178,31 @@ readonly class RedisQueueHandler implements QueueHandler
 
         return $this->cachePool->save(
             $this->cachePool->getItem($key)->set($queueItem),
+        );
+    }
+
+    /** @inheritDoc */
+    public function enqueueJob(
+        string $handle,
+        string $name,
+        string $class,
+        string $method = '__invoke',
+        array $context = [],
+        string $queueName = 'default',
+    ): bool {
+        return $this->enqueue(
+            new QueueItem(
+                $handle,
+                $name,
+                new QueueItemJobCollection([
+                    new QueueItemJob(
+                        $class,
+                        $method,
+                        $context,
+                    ),
+                ]),
+            ),
+            $queueName,
         );
     }
 

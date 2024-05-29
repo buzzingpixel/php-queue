@@ -29,6 +29,19 @@ interface QueueHandler
         string $queueName = 'default',
     ): bool;
 
+    /**
+     * @param class-string $class
+     * @param mixed[]      $context Must be `json_encode`-able
+     */
+    public function enqueueJob(
+        string $handle,
+        string $name,
+        string $class,
+        string $method = '__invoke',
+        array $context = [],
+        string $queueName = 'default',
+    ): bool;
+
     public function deQueue(string $key): bool;
 
     public function deQueueAllItems(string $queueName = 'default'): bool;
