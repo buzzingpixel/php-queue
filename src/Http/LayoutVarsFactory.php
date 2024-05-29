@@ -24,6 +24,7 @@ readonly class LayoutVarsFactory
      */
     public function createVars(
         string $pageTitle,
+        ActiveMenuItem $activeMenuItem,
         array $addVars = [],
     ): array {
         $routes = $this->routesFactory->create();
@@ -48,10 +49,12 @@ readonly class LayoutVarsFactory
                     new SidebarLink(
                         'Enqueued',
                         $enqueuedRoute->pattern,
+                        $activeMenuItem === ActiveMenuItem::ENQUEUED,
                     ),
                     new SidebarLink(
                         'TODO',
                         '/todo',
+                        $activeMenuItem === ActiveMenuItem::TODO,
                     ),
                 ]),
             ],

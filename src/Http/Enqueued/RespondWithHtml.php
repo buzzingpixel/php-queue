@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue\Http\Enqueued;
 
+use BuzzingPixel\Queue\Http\ActiveMenuItem;
 use BuzzingPixel\Queue\Http\HttpPath;
 use BuzzingPixel\Queue\Http\LayoutVarsFactory;
 use BuzzingPixel\Queue\QueueItemWithKeyCollection;
@@ -26,6 +27,7 @@ readonly class RespondWithHtml
             ->templatePath(EnqueuedPath::ENQUEUED_INTERFACE)
             ->vars($this->layoutVarsFactory->createVars(
                 'Enqueued Items',
+                ActiveMenuItem::ENQUEUED,
             ))
             ->extends(HttpPath::LAYOUT_INTERFACE);
 
