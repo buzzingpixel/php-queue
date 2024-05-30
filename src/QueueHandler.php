@@ -24,6 +24,8 @@ interface QueueHandler
         string $queueName = 'default',
     ): QueueItemWithKeyCollection;
 
+    public function findEnqueuedItemByKey(string $key): QueueItemResult;
+
     public function getEnqueuedItemsFromAllQueues(): QueueNameWithItemsCollection;
 
     public function enqueue(

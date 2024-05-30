@@ -18,7 +18,7 @@ class QueueItemJobCollection
     public array $queueItemJobs;
 
     /** @param QueueItemJob[] $queueItemJobs */
-    public function __construct(array $queueItemJobs)
+    public function __construct(array $queueItemJobs = [])
     {
         if (count($queueItemJobs) < 1) {
             throw new RuntimeException(

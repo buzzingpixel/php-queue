@@ -9,6 +9,7 @@ use BuzzingPixel\Queue\QueueHandler;
 use BuzzingPixel\Queue\QueueItem;
 use BuzzingPixel\Queue\QueueItemJob;
 use BuzzingPixel\Queue\QueueItemJobCollection;
+use BuzzingPixel\Queue\QueueItemResult;
 use BuzzingPixel\Queue\QueueItemWithKey;
 use BuzzingPixel\Queue\QueueItemWithKeyCollection;
 use BuzzingPixel\Queue\QueueNames;
@@ -139,6 +140,7 @@ readonly class RedisQueueHandler implements QueueHandler
 
         foreach ($enqueuedKeysNoNamespace as $key) {
             $queueItems[] = QueueItemWithKey::fromQueueItem(
+                $queueName,
                 $key,
                 /** @phpstan-ignore-next-line */
                 $this->cachePool->getItem($key)->get(),
@@ -146,6 +148,36 @@ readonly class RedisQueueHandler implements QueueHandler
         }
 
         return new QueueItemWithKeyCollection($queueItems);
+    }
+
+    public function findEnqueuedItemByKey(string $key): QueueItemResult
+    {
+        $result = $this->cachePool->getItem($key);
+
+        if (! $result->isHit()) {
+            return new QueueItemResult();
+        }
+
+        $queueItem = $result->get();
+
+        if (! ($queueItem instanceof QueueItem)) {
+            $this->logger->debug(
+                'Acquired key from cache is not instance of QueueItem: ' . $key,
+                ['key' => $key],
+            );
+
+            return new QueueItemResult();
+        }
+
+        $keyParts = explode('_', $key);
+
+        $queueName = $keyParts[1];
+
+        return new QueueItemResult(QueueItemWithKey::fromQueueItem(
+            $queueName,
+            $key,
+            $queueItem,
+        ));
     }
 
     public function getEnqueuedItemsFromAllQueues(): QueueNameWithItemsCollection

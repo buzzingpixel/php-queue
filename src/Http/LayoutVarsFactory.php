@@ -24,7 +24,7 @@ readonly class LayoutVarsFactory
      */
     public function createVars(
         string $pageTitle,
-        ActiveMenuItem $activeMenuItem,
+        ActiveMenuItem|null $activeMenuItem = null,
         array $addVars = [],
     ): array {
         $routes = $this->routesFactory->create();
