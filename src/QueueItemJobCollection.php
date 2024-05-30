@@ -32,6 +32,11 @@ class QueueItemJobCollection
         ));
     }
 
+    public function count(): int
+    {
+        return count($this->queueItemJobs);
+    }
+
     /** @phpstan-ignore-next-line */
     public function map(callable $callback): array
     {

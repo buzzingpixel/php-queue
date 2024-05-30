@@ -13,26 +13,26 @@ use function count;
 readonly class QueueNameWithItemsCollection
 {
     /** @var QueueNameWithItems[] */
-    public array $queue;
+    public array $queues;
 
-    /** @param QueueNameWithItems[] $items */
-    public function __construct(array $items = [])
+    /** @param QueueNameWithItems[] $queues */
+    public function __construct(array $queues = [])
     {
-        $this->queue = array_values(array_map(
+        $this->queues = array_values(array_map(
             static fn (QueueNameWithItems $q) => $q,
-            $items,
+            $queues,
         ));
     }
 
     public function countQueues(): int
     {
-        return count($this->queue);
+        return count($this->queues);
     }
 
     /** @phpstan-ignore-next-line */
     public function map(callable $callback): array
     {
-        return array_map($callback, $this->queue);
+        return array_map($callback, $this->queues);
     }
 
     public function flattenItems(): QueueItemWithKeyCollection

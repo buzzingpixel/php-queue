@@ -35,7 +35,7 @@ readonly class GetEnqueuedAction
         ServerRequestInterface $request,
         ResponseInterface $response,
     ): ResponseInterface {
-        $queueItems = $this->queueHandler->getEnqueuedItems();
+        $queueItems = $this->queueHandler->getEnqueuedItemsFromAllQueues();
 
         return match ($this->responseTypeFactory->check($request)) {
             ResponseType::JSON => $this->respondWithJson->respond(

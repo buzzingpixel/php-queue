@@ -1,17 +1,16 @@
 <?php
 
-/** @noinspection PhpUndefinedVariableInspection */
-
 use BuzzingPixel\Queue\Http\SidebarLinksCollection;
 use BuzzingPixel\Templating\TemplateEngine;
 
 assert($this instanceof TemplateEngine);
+/** @noinspection PhpUndefinedVariableInspection */
 assert($sidebarLinks instanceof SidebarLinksCollection);
 ?>
 
-<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 border-r border-gray-200">
+<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-50 px-6 pb-4 border-r border-gray-200 pt-6">
     <nav class="flex flex-1 flex-col">
-        <ul role="list" class="-mx-2 space-y-1 mt-4">
+        <ul role="list" class="-mx-2 space-y-1">
             <?php foreach ($sidebarLinks->links as $link): ?>
                 <?php
                     $linkClasses = [
@@ -27,14 +26,14 @@ assert($sidebarLinks instanceof SidebarLinksCollection);
 
                     if ($link->isActive) {
                         $linkClasses = array_merge($linkClasses, [
-                            'bg-gray-200',
-                            'text-indigo-600',
+                            'bg-green-100',
+                            'text-emerald-700',
                         ]);
                     } else {
                         $linkClasses = array_merge($linkClasses, [
                             'text-gray-700',
-                            'hover:text-indigo-600',
-                            'hover:bg-gray-200',
+                            'hover:text-emerald-600',
+                            'hover:bg-green-100',
                         ]);
                     }
                 ?>

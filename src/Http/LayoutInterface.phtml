@@ -1,14 +1,15 @@
 <?php
 
-/** @noinspection PhpUndefinedVariableInspection */
-
 use BuzzingPixel\Queue\Http\HttpPath;
 use BuzzingPixel\Queue\Http\SidebarLinksCollection;
 use BuzzingPixel\Templating\TemplateEngine;
 
 assert($this instanceof TemplateEngine);
+/** @noinspection PhpUndefinedVariableInspection */
 assert(is_string($cssUri));
+/** @noinspection PhpUndefinedVariableInspection */
 assert(is_string($pageTitle));
+/** @noinspection PhpUndefinedVariableInspection */
 assert($sidebarLinks instanceof SidebarLinksCollection);
 
 $sidebarLinksHtml = $this->partial(HttpPath::SIDEBAR_PARTIAL, [
@@ -77,7 +78,7 @@ $sidebarLinksHtml = $this->partial(HttpPath::SIDEBAR_PARTIAL, [
             </button>
         </div>
 
-        <main class="py-6">
+        <main class="py-6 max-w-5xl">
             <div class="px-4 sm:px-6 lg:px-8">
                 <?= $this->getSection('layoutContent') ?>
             </div>
