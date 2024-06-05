@@ -6,10 +6,6 @@ namespace BuzzingPixel\Queue;
 
 interface QueueHandler
 {
-    public const JOBS_EXPIRES_AFTER_SECONDS = 3600;
-
-    public function jobsExpiresAfterSeconds(): int;
-
     /** @return string[] */
     public function getAvailableQueues(): array;
 
@@ -53,4 +49,10 @@ interface QueueHandler
     public function consumeNext(
         string $queueName = 'default',
     ): void;
+
+    public function getCompletedJobs(
+        string $queueName = 'default',
+    ): QueueItemWithKeyCollection;
+
+    public function getCompletedJobsFromAllQueue(): QueueNameWithItemsCollection;
 }

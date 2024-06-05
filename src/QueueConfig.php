@@ -21,7 +21,10 @@ readonly class QueueConfig
 
     public function __construct(
         ContainerInterface $container,
-        public int $jobsExpiresAfterSeconds = QueueHandler::JOBS_EXPIRES_AFTER_SECONDS,
+        // 3600 = 60 minutes
+        public int $jobsExpiresAfterSeconds = 3600,
+        // 604800 = 7 days
+        public int $completedItemsExpireAfterSeconds = 604800,
     ) {
         if ($container->has(ClockInterface::class)) {
             $clock = $container->get(ClockInterface::class);

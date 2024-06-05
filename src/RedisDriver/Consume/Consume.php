@@ -17,6 +17,7 @@ readonly class Consume
         private Lock $lock,
         private QueueConfig $config,
         private ContainerInterface $container,
+        private AddCompletedItem $addCompletedItem,
         private EnqueuedItemByKey $enqueuedItemByKey,
     ) {
     }
@@ -71,7 +72,7 @@ readonly class Consume
                 ['key' => $lockResult->consumeKeyRaw],
             );
 
-            // TODO: move items into a success holding
+            $this->addCompletedItem->add($queueItemResult->queueItem);
 
             $this->lock->release($lockResult);
         } catch (Throwable $exception) {

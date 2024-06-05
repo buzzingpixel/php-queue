@@ -10,7 +10,7 @@ use function count;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-class QueueItemWithKeyCollection
+readonly class QueueItemWithKeyCollection
 {
     /** @var QueueItemWithKey[] */
     public array $queueItems;

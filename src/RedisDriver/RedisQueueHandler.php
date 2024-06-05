@@ -28,13 +28,9 @@ readonly class RedisQueueHandler implements QueueHandler
         private QueueConfig $config,
         private TotalItems $totalItems,
         private EnqueuedItems $enqueuedItems,
+        private CompletedItems $completedItems,
         private EnqueuedItemByKey $enqueuedItemByKey,
     ) {
-    }
-
-    public function jobsExpiresAfterSeconds(): int
-    {
-        return $this->config->jobsExpiresAfterSeconds;
     }
 
     /** @inheritDoc */
@@ -140,5 +136,25 @@ readonly class RedisQueueHandler implements QueueHandler
     public function deQueueAllItems(string $queueName = 'default'): bool
     {
         return $this->deQueue->allItems($queueName);
+    }
+
+    public function getCompletedJobs(
+        string $queueName = 'default',
+    ): QueueItemWithKeyCollection {
+        return $this->completedItems->fromQueue($queueName);
+    }
+
+    public function getCompletedJobsFromAllQueue(): QueueNameWithItemsCollection
+    {
+        $queues = [];
+
+        foreach ($this->getAvailableQueues() as $queue) {
+            $queues[] = new QueueNameWithItems(
+                $queue,
+                $this->getCompletedJobs($queue),
+            );
+        }
+
+        return new QueueNameWithItemsCollection($queues);
     }
 }

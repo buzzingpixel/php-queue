@@ -6,7 +6,7 @@ namespace BuzzingPixel\Queue;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-class QueueItemJob
+readonly class QueueItemJob
 {
     /**
      * @param class-string $class

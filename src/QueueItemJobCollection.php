@@ -12,7 +12,7 @@ use function count;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-class QueueItemJobCollection
+readonly class QueueItemJobCollection
 {
     /** @var QueueItemJob[] $queueItemJobs */
     public array $queueItemJobs;
