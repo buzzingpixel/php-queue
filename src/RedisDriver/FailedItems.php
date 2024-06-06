@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue\RedisDriver;
 
-use BuzzingPixel\Queue\QueueItemWithKeyCollection;
+use BuzzingPixel\Queue\QueueItemFailedCollection;
 use Redis;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 use function array_map;
 use function sort;
 
-readonly class CompletedItems
+readonly class FailedItems
 {
     public function __construct(
         private Redis $redis,
@@ -20,29 +20,29 @@ readonly class CompletedItems
     ) {
     }
 
-    public function fromQueue(string $queueName): QueueItemWithKeyCollection
+    public function fromQueue(string $queueName): QueueItemFailedCollection
     {
-        $completedKeys = $this->redis->keys(
+        $failedKeys = $this->redis->keys(
             $this->namespaceFactory->createKey(
                 'queue',
-                'completed',
+                'failed',
                 $queueName,
                 '*',
             ),
         );
 
-        sort($completedKeys);
+        sort($failedKeys);
 
-        $completedKeysNoNamespace = $this->namespaceFactory->removeNamespaceFromKeys(
-            $completedKeys,
+        $failedKeysNoNamespace = $this->namespaceFactory->removeNamespaceFromKeys(
+            $failedKeys,
         );
 
-        $queueItems = array_map(
+        $items = array_map(
             fn (string $key) => $this->cachePool->getItem($key)->get(),
-            $completedKeysNoNamespace,
+            $failedKeysNoNamespace,
         );
 
         /** @phpstan-ignore-next-line */
-        return new QueueItemWithKeyCollection($queueItems);
+        return new QueueItemFailedCollection($items);
     }
 }

@@ -16,6 +16,7 @@ readonly class Consume
     public function __construct(
         private Lock $lock,
         private QueueConfig $config,
+        private AddFailedItem $addFailedItem,
         private ContainerInterface $container,
         private AddCompletedItem $addCompletedItem,
         private EnqueuedItemByKey $enqueuedItemByKey,
@@ -87,7 +88,10 @@ readonly class Consume
                 ],
             );
 
-            // TODO: move items into a failed queue
+            $this->addFailedItem->add(
+                $queueItemResult->queueItem,
+                $exception,
+            );
 
             $this->lock->release($lockResult);
         }

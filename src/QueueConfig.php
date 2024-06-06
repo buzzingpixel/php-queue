@@ -25,6 +25,7 @@ readonly class QueueConfig
         public int $jobsExpiresAfterSeconds = 3600,
         // 604800 = 7 days
         public int $completedItemsExpireAfterSeconds = 604800,
+        public int $failedItemsExpireAfterSeconds = 604800,
     ) {
         if ($container->has(ClockInterface::class)) {
             $clock = $container->get(ClockInterface::class);

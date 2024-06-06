@@ -22,14 +22,12 @@ readonly class AddCompletedItem
 
     public function add(QueueItemWithKey $queueItem): bool
     {
-        $handle = $queueItem->handle;
-
         $queueItem = $queueItem->withKey(implode('_', [
             'queue',
             'completed',
             $queueItem->queueName,
             $this->config->clock->now()->getTimestamp(),
-            $handle,
+            $queueItem->handle,
             $this->extractUuid->fromKey($queueItem->key),
         ]));
 

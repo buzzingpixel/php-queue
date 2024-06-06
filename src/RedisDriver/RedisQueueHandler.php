@@ -7,10 +7,13 @@ namespace BuzzingPixel\Queue\RedisDriver;
 use BuzzingPixel\Queue\QueueConfig;
 use BuzzingPixel\Queue\QueueHandler;
 use BuzzingPixel\Queue\QueueItem;
+use BuzzingPixel\Queue\QueueItemFailedCollection;
 use BuzzingPixel\Queue\QueueItemJob;
 use BuzzingPixel\Queue\QueueItemJobCollection;
 use BuzzingPixel\Queue\QueueItemResult;
 use BuzzingPixel\Queue\QueueItemWithKeyCollection;
+use BuzzingPixel\Queue\QueueNameWithFailedItems;
+use BuzzingPixel\Queue\QueueNameWithFailedItemsCollection;
 use BuzzingPixel\Queue\QueueNameWithItems;
 use BuzzingPixel\Queue\QueueNameWithItemsCollection;
 use BuzzingPixel\Queue\RedisDriver\Consume\Consume;
@@ -27,6 +30,7 @@ readonly class RedisQueueHandler implements QueueHandler
         private Enqueue $enqueue,
         private QueueConfig $config,
         private TotalItems $totalItems,
+        private FailedItems $failedItems,
         private EnqueuedItems $enqueuedItems,
         private CompletedItems $completedItems,
         private EnqueuedItemByKey $enqueuedItemByKey,
@@ -144,7 +148,7 @@ readonly class RedisQueueHandler implements QueueHandler
         return $this->completedItems->fromQueue($queueName);
     }
 
-    public function getCompletedJobsFromAllQueue(): QueueNameWithItemsCollection
+    public function getCompletedJobsFromAllQueues(): QueueNameWithItemsCollection
     {
         $queues = [];
 
@@ -156,5 +160,25 @@ readonly class RedisQueueHandler implements QueueHandler
         }
 
         return new QueueNameWithItemsCollection($queues);
+    }
+
+    public function getFailedJobs(
+        string $queueName = 'default',
+    ): QueueItemFailedCollection {
+        return $this->failedItems->fromQueue($queueName);
+    }
+
+    public function getFailedJobsFromAllQueues(): QueueNameWithFailedItemsCollection
+    {
+        $queues = [];
+
+        foreach ($this->getAvailableQueues() as $queue) {
+            $queues[] = new QueueNameWithFailedItems(
+                $queue,
+                $this->getFailedJobs($queue),
+            );
+        }
+
+        return new QueueNameWithFailedItemsCollection($queues);
     }
 }
