@@ -145,40 +145,40 @@ readonly class RedisQueueHandler implements QueueHandler
         return $this->deQueue->allItems($queueName);
     }
 
-    public function getCompletedJobs(
+    public function getCompletedItems(
         string $queueName = 'default',
     ): QueueItemCompletedCollection {
         return $this->completedItems->fromQueue($queueName);
     }
 
-    public function getCompletedJobsFromAllQueues(): QueueNameWithCompletedItemsCollection
+    public function getCompletedItemsFromAllQueues(): QueueNameWithCompletedItemsCollection
     {
         $queues = [];
 
         foreach ($this->getAvailableQueues() as $queue) {
             $queues[] = new QueueNameWithCompletedItems(
                 $queue,
-                $this->getCompletedJobs($queue),
+                $this->getCompletedItems($queue),
             );
         }
 
         return new QueueNameWithCompletedItemsCollection($queues);
     }
 
-    public function getFailedJobs(
+    public function getFailedItems(
         string $queueName = 'default',
     ): QueueItemFailedCollection {
         return $this->failedItems->fromQueue($queueName);
     }
 
-    public function getFailedJobsFromAllQueues(): QueueNameWithFailedItemsCollection
+    public function getFailedItemsFromAllQueues(): QueueNameWithFailedItemsCollection
     {
         $queues = [];
 
         foreach ($this->getAvailableQueues() as $queue) {
             $queues[] = new QueueNameWithFailedItems(
                 $queue,
-                $this->getFailedJobs($queue),
+                $this->getFailedItems($queue),
             );
         }
 

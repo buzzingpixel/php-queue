@@ -9,7 +9,7 @@ assert($this instanceof TemplateEngine);
 assert(is_string($breadcrumbs));
 
 /** @noinspection PhpUndefinedVariableInspection */
-assert($queueItem instanceof QueueItemWithKey);
+assert($completedItem instanceof QueueItemWithKey);
 ?>
 
 <?=$breadcrumbs?>
@@ -21,7 +21,7 @@ assert($queueItem instanceof QueueItemWithKey);
                 Item
             </h3>
             <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                <?=$queueItem->name?>
+                <?=$completedItem->name?>
             </p>
         </div>
         <div class="mt-6">
@@ -29,26 +29,26 @@ assert($queueItem instanceof QueueItemWithKey);
                 <div class="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
                     <dt class="text-sm font-medium leading-6 text-gray-900">Key</dt>
                     <dd class="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-                        <?=$queueItem->key?>
+                        <?=$completedItem->key?>
                     </dd>
                 </div>
                 <div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
                     <dt class="text-sm font-medium leading-6 text-gray-900">Queue</dt>
                     <dd class="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-                        <?=$queueItem->queueName?>
+                        <?=$completedItem->queueName?>
                     </dd>
                 </div>
                 <div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
                     <dt class="text-sm font-medium leading-6 text-gray-900">Handle</dt>
                     <dd class="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-                        <?=$queueItem->handle?>
+                        <?=$completedItem->handle?>
                     </dd>
                 </div>
                 <div class="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
                     <dt class="text-sm font-medium leading-6 text-gray-900">Jobs</dt>
                     <dd class="mt-2 text-sm text-gray-900">
                         <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
-                            <?php foreach ($queueItem->jobs->queueItemJobs as $job): ?>
+                            <?php foreach ($completedItem->jobs->queueItemJobs as $job): ?>
                                 <li class="py-4 pl-4 pr-5 text-sm leading-6">
                                     <div class="font-medium block pb-2">
                                         <?=$job->class?>::<?=$job->method?>

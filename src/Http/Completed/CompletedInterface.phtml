@@ -1,10 +1,87 @@
 <?php
 
-use BuzzingPixel\Queue\Http\Enqueued\Details\DetailsUrlFactory;
-use BuzzingPixel\Queue\QueueNameWithItemsCollection;
+use BuzzingPixel\Queue\Http\Completed\Details\DetailsUrlFactory;
+use BuzzingPixel\Queue\QueueNameWithCompletedItemsCollection;
 use BuzzingPixel\Templating\TemplateEngine;
 
 assert($this instanceof TemplateEngine);
+
+/** @noinspection PhpUndefinedVariableInspection */
+assert($timezone instanceof DateTimeZone);
+
+/** @noinspection PhpUndefinedVariableInspection */
+assert(is_string($dateFormat));
+
+/** @noinspection PhpUndefinedVariableInspection */
+assert($items instanceof QueueNameWithCompletedItemsCollection);
+
+/** @noinspection PhpUndefinedVariableInspection */
+assert($detailsUrlFactory instanceof DetailsUrlFactory);
 ?>
 
-todo
+<div class="border-b border-gray-200 pb-5 mb-10">
+    <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
+        <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">
+            Completed Items
+        </h3>
+    </div>
+</div>
+
+<?php foreach ($items->items as $queue): ?>
+    <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl mb-12">
+        <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
+            <h3 class="text-base leading-6 text-gray-900">
+                <span class="font-semibold">Queue:</span>
+                <span class="text-emerald-600"><?=$queue->queueName?></span>
+            </h3>
+        </div>
+        <ul role="list" class="divide-y divide-gray-100">
+            <?php if ($queue->items->count() < 1): ?>
+                <li class="relative flex justify-between gap-x-6 px-4 py-2 sm:px-6 font-extralight">
+                    no completed items from queue
+                </li>
+            <?php endif; ?>
+            <?php foreach ($queue->items->items as $completedItem): ?>
+                <li class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-green-100 sm:px-6">
+                    <div class="flex min-w-0 gap-x-4">
+                        <div class="min-w-0 flex-auto">
+                            <p class="text-sm font-semibold leading-6 text-gray-900">
+                                <a href="<?=$detailsUrlFactory->make($completedItem->key)?>">
+                                    <span class="absolute inset-x-0 -top-px bottom-0"></span>
+                                    <?=$completedItem->queueItem->name?>
+                                </a>
+                            </p>
+                            <p class="mt-1 flex text-xs leading-5 text-gray-500">
+                                <span class="font-semibold mr-1">Handle:</span>
+                                <span class="text-emerald-600"><?=$completedItem->queueItem->handle?></span>
+                            </p>
+                            <p class="mt-1 flex text-xs leading-5 text-gray-500 sm:hidden">
+                                <span class="font-semibold mr-1">Finished:</span>
+                                <span class="text-emerald-600">
+                                    <?=$completedItem->date
+                                        ->setTimezone($timezone)
+                                        ->format($dateFormat)?>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex shrink-0 items-center gap-x-4">
+                        <div class="hidden sm:flex sm:flex-col sm:items-end">
+                            <p class="text-sm leading-6 text-gray-900 font-semibold">
+                                Finished
+                            </p>
+                            <p class="mt-1 text-xs leading-5 text-emerald-600">
+                                <?=$completedItem->date
+                                    ->setTimezone($timezone)
+                                    ->format($dateFormat)?>
+                            </p>
+                        </div>
+                        <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endforeach; ?>

@@ -15,7 +15,9 @@ assert($detailsUrlFactory instanceof DetailsUrlFactory);
 
 <div class="border-b border-gray-200 pb-5 mb-10">
     <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
-        <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">Enqueued Items</h3>
+        <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">
+            Enqueued Items
+        </h3>
     </div>
 </div>
 
@@ -44,11 +46,11 @@ assert($detailsUrlFactory instanceof DetailsUrlFactory);
                                 </a>
                             </p>
                             <p class="mt-1 flex text-xs leading-5 text-gray-500">
-                                <span class="font-semibold">Handle:</span>
+                                <span class="font-semibold mr-1">Handle:</span>
                                 <span class="text-emerald-600"><?=$queueItem->handle?></span>
                             </p>
                             <p class="mt-1 flex text-xs leading-5 text-gray-500 sm:hidden">
-                                <span class="font-semibold">Jobs:</span>
+                                <span class="font-semibold mr-1">Jobs:</span>
                                 <span class="text-emerald-600"><?=$queueItem->jobs->count()?></span>
                             </p>
                         </div>

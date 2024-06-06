@@ -50,15 +50,15 @@ interface QueueHandler
         string $queueName = 'default',
     ): void;
 
-    public function getCompletedJobs(
+    public function getCompletedItems(
         string $queueName = 'default',
     ): QueueItemCompletedCollection;
 
-    public function getCompletedJobsFromAllQueues(): QueueNameWithCompletedItemsCollection;
+    public function getCompletedItemsFromAllQueues(): QueueNameWithCompletedItemsCollection;
 
-    public function getFailedJobs(
+    public function getFailedItems(
         string $queueName = 'default',
     ): QueueItemFailedCollection;
 
-    public function getFailedJobsFromAllQueues(): QueueNameWithFailedItemsCollection;
+    public function getFailedItemsFromAllQueues(): QueueNameWithFailedItemsCollection;
 }

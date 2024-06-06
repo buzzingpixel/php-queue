@@ -24,7 +24,7 @@ readonly class QueueNameWithItemsCollection
         ));
     }
 
-    public function countQueues(): int
+    public function count(): int
     {
         return count($this->queues);
     }

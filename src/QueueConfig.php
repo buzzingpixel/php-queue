@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue;
 
+use DateTimeZone;
 use Lcobucci\Clock\SystemClock;
 use Psr\Clock\ClockInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 use function assert;
+use function date_default_timezone_get;
 
 readonly class QueueConfig
 {
@@ -19,6 +21,8 @@ readonly class QueueConfig
 
     public LoggerInterface $logger;
 
+    public DateTimeZone $displayTimezone;
+
     public function __construct(
         ContainerInterface $container,
         // 3600 = 60 minutes
@@ -26,6 +30,8 @@ readonly class QueueConfig
         // 604800 = 7 days
         public int $completedItemsExpireAfterSeconds = 604800,
         public int $failedItemsExpireAfterSeconds = 604800,
+        DateTimeZone|null $displayTimezone = null,
+        public string $displayDateFormat = 'Y-m-d h:i:s A e',
     ) {
         if ($container->has(ClockInterface::class)) {
             $clock = $container->get(ClockInterface::class);
@@ -49,6 +55,12 @@ readonly class QueueConfig
             $logger = new NoOpLogger();
         }
 
+        if ($displayTimezone === null) {
+            $displayTimezone = new DateTimeZone(
+                date_default_timezone_get(),
+            );
+        }
+
         assert($logger instanceof LoggerInterface);
 
         $this->clock = $clock;
@@ -56,5 +68,7 @@ readonly class QueueConfig
         $this->queueNames = $queueNames;
 
         $this->logger = $logger;
+
+        $this->displayTimezone = $displayTimezone;
     }
 }
