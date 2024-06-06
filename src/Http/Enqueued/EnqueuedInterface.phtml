@@ -13,6 +13,12 @@ assert($queues instanceof QueueNameWithItemsCollection);
 assert($detailsUrlFactory instanceof DetailsUrlFactory);
 ?>
 
+<div class="border-b border-gray-200 pb-5 mb-10">
+    <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
+        <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">Enqueued Items</h3>
+    </div>
+</div>
+
 <?php foreach ($queues->queues as $queue): ?>
     <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl mb-12">
         <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">

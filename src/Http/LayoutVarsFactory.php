@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue\Http;
 
+use BuzzingPixel\Queue\Http\Completed\GetCompletedAction;
 use BuzzingPixel\Queue\Http\Css\GetCssAction;
 use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
 use BuzzingPixel\Queue\Http\Routes\Route;
@@ -41,6 +42,12 @@ readonly class LayoutVarsFactory
             ) => $route->class === GetEnqueuedAction::class,
         )->first();
 
+        $completedRoute = $routes->filter(
+            static fn (
+                Route $route,
+            ) => $route->class === GetCompletedAction::class,
+        )->first();
+
         return array_merge(
             [
                 'cssUri' => $cssRoute->pattern,
@@ -52,9 +59,9 @@ readonly class LayoutVarsFactory
                         $activeMenuItem === ActiveMenuItem::ENQUEUED,
                     ),
                     new SidebarLink(
-                        'TODO',
-                        '/todo',
-                        $activeMenuItem === ActiveMenuItem::TODO,
+                        'Completed',
+                        $completedRoute->pattern,
+                        $activeMenuItem === ActiveMenuItem::COMPLETED,
                     ),
                 ]),
             ],

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue\Http\Routes;
 
+use BuzzingPixel\Queue\Http\Completed\GetCompletedAction;
 use BuzzingPixel\Queue\Http\Css\GetCssAction;
 use BuzzingPixel\Queue\Http\Enqueued\Details\GetEnqueuedDetailsAction;
 use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
@@ -21,6 +22,9 @@ readonly class RoutesFactory
             GetCssAction::createRoute($this->routePrefix),
             GetEnqueuedAction::createRoute($this->routePrefix),
             GetEnqueuedDetailsAction::createRoute(
+                $this->routePrefix,
+            ),
+            GetCompletedAction::createRoute(
                 $this->routePrefix,
             ),
         ]);

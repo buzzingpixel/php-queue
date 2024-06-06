@@ -6,6 +6,6 @@ namespace BuzzingPixel\Queue\Http;
 
 enum ActiveMenuItem
 {
-    case TODO;
     case ENQUEUED;
+    case COMPLETED;
 }
