@@ -7,11 +7,14 @@ namespace BuzzingPixel\Queue\RedisDriver;
 use BuzzingPixel\Queue\QueueConfig;
 use BuzzingPixel\Queue\QueueHandler;
 use BuzzingPixel\Queue\QueueItem;
+use BuzzingPixel\Queue\QueueItemCompletedCollection;
 use BuzzingPixel\Queue\QueueItemFailedCollection;
 use BuzzingPixel\Queue\QueueItemJob;
 use BuzzingPixel\Queue\QueueItemJobCollection;
 use BuzzingPixel\Queue\QueueItemResult;
 use BuzzingPixel\Queue\QueueItemWithKeyCollection;
+use BuzzingPixel\Queue\QueueNameWithCompletedItems;
+use BuzzingPixel\Queue\QueueNameWithCompletedItemsCollection;
 use BuzzingPixel\Queue\QueueNameWithFailedItems;
 use BuzzingPixel\Queue\QueueNameWithFailedItemsCollection;
 use BuzzingPixel\Queue\QueueNameWithItems;
@@ -144,22 +147,22 @@ readonly class RedisQueueHandler implements QueueHandler
 
     public function getCompletedJobs(
         string $queueName = 'default',
-    ): QueueItemWithKeyCollection {
+    ): QueueItemCompletedCollection {
         return $this->completedItems->fromQueue($queueName);
     }
 
-    public function getCompletedJobsFromAllQueues(): QueueNameWithItemsCollection
+    public function getCompletedJobsFromAllQueues(): QueueNameWithCompletedItemsCollection
     {
         $queues = [];
 
         foreach ($this->getAvailableQueues() as $queue) {
-            $queues[] = new QueueNameWithItems(
+            $queues[] = new QueueNameWithCompletedItems(
                 $queue,
                 $this->getCompletedJobs($queue),
             );
         }
 
-        return new QueueNameWithItemsCollection($queues);
+        return new QueueNameWithCompletedItemsCollection($queues);
     }
 
     public function getFailedJobs(

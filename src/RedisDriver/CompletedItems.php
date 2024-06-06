@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue\RedisDriver;
 
-use BuzzingPixel\Queue\QueueItemWithKeyCollection;
+use BuzzingPixel\Queue\QueueItemCompletedCollection;
 use Redis;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
@@ -20,7 +20,7 @@ readonly class CompletedItems
     ) {
     }
 
-    public function fromQueue(string $queueName): QueueItemWithKeyCollection
+    public function fromQueue(string $queueName): QueueItemCompletedCollection
     {
         $completedKeys = $this->redis->keys(
             $this->namespaceFactory->createKey(
@@ -43,6 +43,6 @@ readonly class CompletedItems
         );
 
         /** @phpstan-ignore-next-line */
-        return new QueueItemWithKeyCollection($queueItems);
+        return new QueueItemCompletedCollection($queueItems);
     }
 }

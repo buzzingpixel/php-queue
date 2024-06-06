@@ -10,16 +10,16 @@ use function count;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-readonly class QueueItemFailedCollection
+readonly class QueueItemCompletedCollection
 {
-    /** @var QueueItemFailed[] */
+    /** @var QueueItemCompleted[] */
     public array $items;
 
-    /** @param QueueItemFailed[] $items */
+    /** @param QueueItemCompleted[] $items */
     public function __construct(array $items = [])
     {
         $this->items = array_values(array_map(
-            static fn (QueueItemFailed $i) => $i,
+            static fn (QueueItemCompleted $i) => $i,
             $items,
         ));
     }
@@ -39,7 +39,7 @@ readonly class QueueItemFailedCollection
     public function asArray(): array
     {
         return $this->map(
-            static fn (QueueItemFailed $item) => $item->asArray(),
+            static fn (QueueItemCompleted $item) => $item->asArray(),
         );
     }
 }

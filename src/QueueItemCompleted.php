@@ -9,18 +9,12 @@ use DateTimeInterface;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-readonly class QueueItemFailed
+readonly class QueueItemCompleted
 {
     public function __construct(
         public string $key,
-        public string $message,
-        public int $code,
-        public string $file,
-        public int $line,
-        public string $trace,
         public QueueItemWithKey $queueItem,
         public DateTimeImmutable $date,
-        public bool $retried = false,
     ) {
     }
 
@@ -29,13 +23,7 @@ readonly class QueueItemFailed
     {
         return [
             'key' => $this->key,
-            'message' => $this->message,
-            'code' => $this->code,
-            'file' => $this->file,
-            'line' => $this->line,
-            'trace' => $this->trace,
             'queueItem' => $this->queueItem->asArray(),
-            'retired' => $this->retried,
             'date' => $this->date->format(DateTimeInterface::ATOM),
         ];
     }

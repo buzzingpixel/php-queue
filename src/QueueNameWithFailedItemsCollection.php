@@ -9,7 +9,7 @@ use function array_values;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-class QueueNameWithFailedItemsCollection
+readonly class QueueNameWithFailedItemsCollection
 {
     /** @var QueueNameWithFailedItems[] */
     public array $items;

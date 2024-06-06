@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BuzzingPixel\Queue\RedisDriver\Consume;
 
 use BuzzingPixel\Queue\QueueConfig;
+use BuzzingPixel\Queue\QueueItemCompleted;
 use BuzzingPixel\Queue\QueueItemWithKey;
 use BuzzingPixel\Queue\RedisDriver\ExtractUuid;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
@@ -22,14 +23,20 @@ readonly class AddCompletedItem
 
     public function add(QueueItemWithKey $queueItem): bool
     {
-        $queueItem = $queueItem->withKey(implode('_', [
-            'queue',
-            'completed',
-            $queueItem->queueName,
-            $this->config->clock->now()->getTimestamp(),
-            $queueItem->handle,
-            $this->extractUuid->fromKey($queueItem->key),
-        ]));
+        $dateTime = $this->config->clock->now();
+
+        $completedItem = new QueueItemCompleted(
+            implode('_', [
+                'queue',
+                'completed',
+                $queueItem->queueName,
+                $dateTime->getTimestamp(),
+                $queueItem->handle,
+                $this->extractUuid->fromKey($queueItem->key),
+            ]),
+            $queueItem,
+            $dateTime,
+        );
 
         $this->config->logger->debug(
             'Saving completed item',
@@ -40,8 +47,8 @@ readonly class AddCompletedItem
         );
 
         return $this->cachePool->save(
-            $this->cachePool->getItem($queueItem->key)
-                ->set($queueItem)
+            $this->cachePool->getItem($completedItem->key)
+                ->set($completedItem)
                 ->expiresAfter(
                     $this->config->completedItemsExpireAfterSeconds,
                 ),

@@ -6,12 +6,9 @@ namespace BuzzingPixel\Queue;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-use Spatie\Cloneable\Cloneable;
 
 readonly class QueueItemWithKey
 {
-    use Cloneable;
-
     public static function fromQueueItem(
         string $queueName,
         string $key,
@@ -44,10 +41,5 @@ readonly class QueueItemWithKey
             'name' => $this->name,
             'jobs' => $this->jobs->asArray(),
         ];
-    }
-
-    public function withKey(string $key): self
-    {
-        return $this->with(key: $key);
     }
 }

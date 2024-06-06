@@ -26,12 +26,14 @@ readonly class AddFailedItem
         QueueItemWithKey $queueItem,
         Throwable $exception,
     ): bool {
+        $dateTime = $this->config->clock->now();
+
         $failedItem = new QueueItemFailed(
             implode('_', [
                 'queue',
                 'failed',
                 $queueItem->queueName,
-                $this->config->clock->now()->getTimestamp(),
+                $dateTime->getTimestamp(),
                 $queueItem->handle,
                 $this->extractUuid->fromKey($queueItem->key),
             ]),
@@ -41,6 +43,7 @@ readonly class AddFailedItem
             $exception->getLine(),
             $exception->getTraceAsString(),
             $queueItem,
+            $dateTime,
         );
 
         $this->config->logger->debug(

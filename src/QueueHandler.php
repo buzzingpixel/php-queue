@@ -52,9 +52,9 @@ interface QueueHandler
 
     public function getCompletedJobs(
         string $queueName = 'default',
-    ): QueueItemWithKeyCollection;
+    ): QueueItemCompletedCollection;
 
-    public function getCompletedJobsFromAllQueues(): QueueNameWithItemsCollection;
+    public function getCompletedJobsFromAllQueues(): QueueNameWithCompletedItemsCollection;
 
     public function getFailedJobs(
         string $queueName = 'default',
