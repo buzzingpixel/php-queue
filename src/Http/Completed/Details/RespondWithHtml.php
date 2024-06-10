@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace BuzzingPixel\Queue\Http\Enqueued\Details;
+namespace BuzzingPixel\Queue\Http\Completed\Details;
 
 use BuzzingPixel\Queue\Http\ActiveMenuItem;
 use BuzzingPixel\Queue\Http\Breadcrumbs\Breadcrumb;
 use BuzzingPixel\Queue\Http\Breadcrumbs\BreadcrumbsFactory;
-use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
+use BuzzingPixel\Queue\Http\Completed\GetCompletedAction;
 use BuzzingPixel\Queue\Http\HttpPath;
 use BuzzingPixel\Queue\Http\LayoutVarsFactory;
 use BuzzingPixel\Queue\Http\Routes\Route;
 use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
-use BuzzingPixel\Queue\QueueItemWithKey;
+use BuzzingPixel\Queue\QueueItemCompleted;
 use BuzzingPixel\Templating\TemplateEngineFactory;
 use Psr\Http\Message\ResponseInterface;
 
@@ -27,29 +27,29 @@ readonly class RespondWithHtml
     }
 
     public function respond(
-        QueueItemWithKey $queueItem,
+        QueueItemCompleted $queueItem,
         ResponseInterface $response,
     ): ResponseInterface {
         $routes = $this->routesFactory->create();
 
-        $enqueuedRoute = $routes->filter(
+        $completedRoute = $routes->filter(
             static fn (
                 Route $route,
-            ) => $route->class === GetEnqueuedAction::class,
+            ) => $route->class === GetCompletedAction::class,
         )->first();
 
         $template = $this->templateEngineFactory->create()
             ->templatePath(DetailsPath::DETAILS_INTERFACE)
             ->vars($this->layoutVarsFactory->createVars(
-                'Enqueued Item Details',
-                ActiveMenuItem::ENQUEUED,
+                'Completed Item Details',
+                ActiveMenuItem::COMPLETED,
             ))
             ->addVar(
                 'breadcrumbs',
                 $this->breadcrumbsFactory->render([
                     new Breadcrumb(
-                        'Enqueued',
-                        $enqueuedRoute->pattern,
+                        'Completed',
+                        $completedRoute->pattern,
                     ),
                     new Breadcrumb('Viewing Details'),
                 ]),

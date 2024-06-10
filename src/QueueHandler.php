@@ -54,6 +54,8 @@ interface QueueHandler
         string $queueName = 'default',
     ): QueueItemCompletedCollection;
 
+    public function findCompletedItemByKey(string $key): QueueItemCompletedResult;
+
     public function getCompletedItemsFromAllQueues(): QueueNameWithCompletedItemsCollection;
 
     public function getFailedItems(

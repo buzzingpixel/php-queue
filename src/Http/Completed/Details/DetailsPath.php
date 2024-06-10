@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BuzzingPixel\Queue\Http\Enqueued\Details;
+namespace BuzzingPixel\Queue\Http\Completed\Details;
 
 readonly class DetailsPath
 {

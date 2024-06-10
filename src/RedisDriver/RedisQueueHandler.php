@@ -8,6 +8,7 @@ use BuzzingPixel\Queue\QueueConfig;
 use BuzzingPixel\Queue\QueueHandler;
 use BuzzingPixel\Queue\QueueItem;
 use BuzzingPixel\Queue\QueueItemCompletedCollection;
+use BuzzingPixel\Queue\QueueItemCompletedResult;
 use BuzzingPixel\Queue\QueueItemFailedCollection;
 use BuzzingPixel\Queue\QueueItemJob;
 use BuzzingPixel\Queue\QueueItemJobCollection;
@@ -37,6 +38,7 @@ readonly class RedisQueueHandler implements QueueHandler
         private EnqueuedItems $enqueuedItems,
         private CompletedItems $completedItems,
         private EnqueuedItemByKey $enqueuedItemByKey,
+        private CompletedItemByKey $completedItemByKey,
     ) {
     }
 
@@ -149,6 +151,11 @@ readonly class RedisQueueHandler implements QueueHandler
         string $queueName = 'default',
     ): QueueItemCompletedCollection {
         return $this->completedItems->fromQueue($queueName);
+    }
+
+    public function findCompletedItemByKey(string $key): QueueItemCompletedResult
+    {
+        return $this->completedItemByKey->find($key);
     }
 
     public function getCompletedItemsFromAllQueues(): QueueNameWithCompletedItemsCollection
