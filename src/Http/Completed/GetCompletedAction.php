@@ -34,17 +34,17 @@ readonly class GetCompletedAction
         ServerRequestInterface $request,
         ResponseInterface $response,
     ): ResponseInterface {
-        $completedItems = $this->completedItemsFactory->createFromRequest(
+        $result = $this->completedItemsFactory->createFromRequest(
             $request,
         );
 
         return match ($this->responseTypeFactory->check($request)) {
             ResponseType::JSON => $this->respondWithJson->respond(
-                $completedItems,
+                $result,
                 $response,
             ),
             ResponseType::HTML => $this->respondWithHtml->respond(
-                $completedItems,
+                $result,
                 $request,
                 $response,
             ),

@@ -9,6 +9,4 @@ readonly class CompletedPath
     public const PATH = __DIR__;
 
     public const COMPLETED_INTERFACE = self::PATH . '/CompletedInterface.phtml';
-
-    public const TABS_INTERFACE = self::PATH . '/TabsInterface.phtml';
 }

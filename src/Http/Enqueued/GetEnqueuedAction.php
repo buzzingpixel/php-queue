@@ -28,6 +28,7 @@ readonly class GetEnqueuedAction
         private RespondWithHtml $respondWithHtml,
         private RespondWithJson $respondWithJson,
         private ResponseTypeFactory $responseTypeFactory,
+        private EnqueuedItemsFactory $enqueuedItemsFactory,
     ) {
     }
 
@@ -35,15 +36,18 @@ readonly class GetEnqueuedAction
         ServerRequestInterface $request,
         ResponseInterface $response,
     ): ResponseInterface {
-        $queueItems = $this->queueHandler->getEnqueuedItemsFromAllQueues();
+        $result = $this->enqueuedItemsFactory->createFromRequest(
+            $request,
+        );
 
         return match ($this->responseTypeFactory->check($request)) {
             ResponseType::JSON => $this->respondWithJson->respond(
-                $queueItems,
+                $result,
                 $response,
             ),
             ResponseType::HTML => $this->respondWithHtml->respond(
-                $queueItems,
+                $result,
+                $request,
                 $response,
             ),
         };

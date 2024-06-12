@@ -1,7 +1,7 @@
 <?php
 
 use BuzzingPixel\Queue\Http\Completed\Details\DetailsUrlFactory;
-use BuzzingPixel\Queue\Http\Completed\TabBuilder;
+use BuzzingPixel\Queue\Http\Tabs\QueueHeadingTitleAndTabBuilder;
 use BuzzingPixel\Queue\QueueNameWithCompletedItemsCollection;
 use BuzzingPixel\Templating\TemplateEngine;
 
@@ -20,19 +20,10 @@ assert($items instanceof QueueNameWithCompletedItemsCollection);
 assert($detailsUrlFactory instanceof DetailsUrlFactory);
 
 /** @noinspection PhpUndefinedVariableInspection */
-assert(is_string($tabs));
+assert(is_string($heading));
 ?>
 
-<div class="border-b border-gray-200 mb-10">
-    <div class="sm:flex sm:items-baseline">
-        <h3 class="text-base font-semibold leading-6 text-gray-900">
-            Completed Items
-        </h3>
-        <div class="mt-4 sm:ml-10 sm:mt-0">
-            <?=$tabs?>
-        </div>
-    </div>
-</div>
+<?=$heading?>
 
 <?php if ($items->count() < 1): ?>
     <div class="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center">

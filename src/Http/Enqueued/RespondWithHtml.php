@@ -8,9 +8,10 @@ use BuzzingPixel\Queue\Http\ActiveMenuItem;
 use BuzzingPixel\Queue\Http\Enqueued\Details\DetailsUrlFactory;
 use BuzzingPixel\Queue\Http\HttpPath;
 use BuzzingPixel\Queue\Http\LayoutVarsFactory;
-use BuzzingPixel\Queue\QueueNameWithItemsCollection;
+use BuzzingPixel\Queue\Http\Tabs\QueueHeadingTitleAndTabBuilder;
 use BuzzingPixel\Templating\TemplateEngineFactory;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 readonly class RespondWithHtml
 {
@@ -18,11 +19,13 @@ readonly class RespondWithHtml
         private DetailsUrlFactory $detailsUrlFactory,
         private LayoutVarsFactory $layoutVarsFactory,
         private TemplateEngineFactory $templateEngineFactory,
+        private QueueHeadingTitleAndTabBuilder $headingBuilder,
     ) {
     }
 
     public function respond(
-        QueueNameWithItemsCollection $queues,
+        EnqueuedItemsResult $result,
+        ServerRequestInterface $request,
         ResponseInterface $response,
     ): ResponseInterface {
         $template = $this->templateEngineFactory->create()
@@ -31,8 +34,13 @@ readonly class RespondWithHtml
                 'Enqueued Items',
                 ActiveMenuItem::ENQUEUED,
             ))
-            ->addVar('queues', $queues)
+            ->addVar('queues', $result->filteredItems)
             ->addVar('detailsUrlFactory', $this->detailsUrlFactory)
+            ->addVar('heading', $this->headingBuilder->render(
+                $result->allItems,
+                $request,
+                'Enqueued Items',
+            ))
             ->extends(HttpPath::LAYOUT_INTERFACE);
 
         $response->getBody()->write($template->render());

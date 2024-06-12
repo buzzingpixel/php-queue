@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue\Http\Enqueued;
 
-use BuzzingPixel\Queue\QueueNameWithItemsCollection;
 use Psr\Http\Message\ResponseInterface;
 
 use function json_encode;
@@ -12,11 +11,11 @@ use function json_encode;
 readonly class RespondWithJson
 {
     public function respond(
-        QueueNameWithItemsCollection $queues,
+        EnqueuedItemsResult $result,
         ResponseInterface $response,
     ): ResponseInterface {
         $response->getBody()->write((string) json_encode(
-            $queues->asArray(),
+            $result->filteredItems->asArray(),
         ));
 
         return $response->withHeader(

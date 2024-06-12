@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue;
 
+use function array_filter;
 use function array_map;
 use function array_values;
 use function count;
@@ -63,6 +64,21 @@ readonly class QueueNameWithItemsCollection
     public function countTotalItems(): int
     {
         return $this->flattenItems()->count();
+    }
+
+    public function filter(callable $callback): self
+    {
+        return new self(array_filter(
+            $this->queues,
+            $callback,
+        ));
+    }
+
+    public function filterWhereQueueNameIs(string $queueName): self
+    {
+        return $this->filter(static fn (
+            QueueNameWithItems $i,
+        ) => $i->queueName === $queueName);
     }
 
     /** @phpstan-ignore-next-line */

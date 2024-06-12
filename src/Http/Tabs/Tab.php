@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BuzzingPixel\Queue\Http\Completed;
+namespace BuzzingPixel\Queue\Http\Tabs;
 
 readonly class Tab
 {

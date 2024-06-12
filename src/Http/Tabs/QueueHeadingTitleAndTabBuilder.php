@@ -2,25 +2,26 @@
 
 declare(strict_types=1);
 
-namespace BuzzingPixel\Queue\Http\Completed;
+namespace BuzzingPixel\Queue\Http\Tabs;
 
 use BuzzingPixel\Queue\QueueNameWithCompletedItems;
 use BuzzingPixel\Queue\QueueNameWithCompletedItemsCollection;
-use BuzzingPixel\Templating\TemplateEngineFactory;
+use BuzzingPixel\Queue\QueueNameWithItems;
+use BuzzingPixel\Queue\QueueNameWithItemsCollection;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function array_merge;
 
-readonly class TabBuilder
+readonly class QueueHeadingTitleAndTabBuilder
 {
-    public function __construct(
-        private TemplateEngineFactory $templateEngineFactory,
-    ) {
+    public function __construct(private TabRenderer $tabRenderer)
+    {
     }
 
     public function render(
-        QueueNameWithCompletedItemsCollection $allItems,
+        QueueNameWithItemsCollection|QueueNameWithCompletedItemsCollection $allItems,
         ServerRequestInterface $request,
+        string $pageTitle,
     ): string {
         $activeQueue = $request->getQueryParams()['queue'] ?? '';
 
@@ -33,7 +34,7 @@ readonly class TabBuilder
                 ),
             ],
             $allItems->map(static fn (
-                QueueNameWithCompletedItems $q,
+                QueueNameWithItems|QueueNameWithCompletedItems $q,
             ) => new Tab(
                 $q->queueName,
                 $q->queueName,
@@ -41,9 +42,9 @@ readonly class TabBuilder
             )),
         ));
 
-        return $this->templateEngineFactory->create()
-            ->templatePath(CompletedPath::TABS_INTERFACE)
-            ->addVar('tabs', $tabs)
-            ->render();
+        return $this->tabRenderer->renderWithTitle(
+            $pageTitle,
+            $tabs,
+        );
     }
 }

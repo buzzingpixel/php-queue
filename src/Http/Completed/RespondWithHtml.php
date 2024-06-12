@@ -8,6 +8,7 @@ use BuzzingPixel\Queue\Http\ActiveMenuItem;
 use BuzzingPixel\Queue\Http\Completed\Details\DetailsUrlFactory;
 use BuzzingPixel\Queue\Http\HttpPath;
 use BuzzingPixel\Queue\Http\LayoutVarsFactory;
+use BuzzingPixel\Queue\Http\Tabs\QueueHeadingTitleAndTabBuilder;
 use BuzzingPixel\Queue\QueueConfig;
 use BuzzingPixel\Templating\TemplateEngineFactory;
 use Psr\Http\Message\ResponseInterface;
@@ -16,11 +17,11 @@ use Psr\Http\Message\ServerRequestInterface;
 readonly class RespondWithHtml
 {
     public function __construct(
-        private TabBuilder $tabs,
         private QueueConfig $config,
         private DetailsUrlFactory $detailsUrlFactory,
         private LayoutVarsFactory $layoutVarsFactory,
         private TemplateEngineFactory $templateEngineFactory,
+        private QueueHeadingTitleAndTabBuilder $headingBuilder,
     ) {
     }
 
@@ -39,9 +40,10 @@ readonly class RespondWithHtml
             ->addVar('items', $result->filteredItems)
             ->addVar('dateFormat', $this->config->displayDateFormat)
             ->addVar('detailsUrlFactory', $this->detailsUrlFactory)
-            ->addVar('tabs', $this->tabs->render(
+            ->addVar('heading', $this->headingBuilder->render(
                 $result->allItems,
                 $request,
+                'Completed Items',
             ))
             ->extends(HttpPath::LAYOUT_INTERFACE);
 

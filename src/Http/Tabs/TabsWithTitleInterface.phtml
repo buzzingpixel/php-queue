@@ -1,0 +1,24 @@
+<?php
+
+use BuzzingPixel\Queue\Http\Tabs\Tabs;
+use BuzzingPixel\Templating\TemplateEngine;
+
+assert($this instanceof TemplateEngine);
+
+/** @noinspection PhpUndefinedVariableInspection */
+assert(is_string($title));
+
+/** @noinspection PhpUndefinedVariableInspection */
+assert(is_string($tabs));
+?>
+
+<div class="border-b border-gray-200 mb-10">
+    <div class="sm:flex sm:items-baseline">
+        <h3 class="text-base font-semibold leading-6 text-gray-900">
+            <?=$title?>
+        </h3>
+        <div class="mt-4 sm:ml-10 sm:mt-0">
+            <?=$tabs?>
+        </div>
+    </div>
+</div>

@@ -11,15 +11,23 @@ assert($queues instanceof QueueNameWithItemsCollection);
 
 /** @noinspection PhpUndefinedVariableInspection */
 assert($detailsUrlFactory instanceof DetailsUrlFactory);
+
+/** @noinspection PhpUndefinedVariableInspection */
+assert(is_string($heading));
 ?>
 
-<div class="border-b border-gray-200 pb-5 mb-10">
-    <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
-        <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">
-            Enqueued Items
-        </h3>
+<?=$heading?>
+
+<?php if ($queues->count() < 1): ?>
+    <div class="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mx-auto h-12 w-12 text-gray-400">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+        </svg>
+        <span class="mt-2 block text-sm font-semibold text-gray-900">
+            No matching queues found
+        </span>
     </div>
-</div>
+<?php endif; ?>
 
 <?php foreach ($queues->queues as $queue): ?>
     <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl mb-12">
