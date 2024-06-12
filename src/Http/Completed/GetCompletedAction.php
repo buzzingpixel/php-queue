@@ -8,7 +8,6 @@ use BuzzingPixel\Queue\Http\ResponseType;
 use BuzzingPixel\Queue\Http\ResponseTypeFactory;
 use BuzzingPixel\Queue\Http\Routes\RequestMethod;
 use BuzzingPixel\Queue\Http\Routes\Route;
-use BuzzingPixel\Queue\QueueHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -24,10 +23,10 @@ readonly class GetCompletedAction
     }
 
     public function __construct(
-        private QueueHandler $queueHandler,
         private RespondWithHtml $respondWithHtml,
         private RespondWithJson $respondWithJson,
         private ResponseTypeFactory $responseTypeFactory,
+        private CompletedItemsFactory $completedItemsFactory,
     ) {
     }
 
@@ -35,7 +34,9 @@ readonly class GetCompletedAction
         ServerRequestInterface $request,
         ResponseInterface $response,
     ): ResponseInterface {
-        $completedItems = $this->queueHandler->getCompletedItemsFromAllQueues();
+        $completedItems = $this->completedItemsFactory->createFromRequest(
+            $request,
+        );
 
         return match ($this->responseTypeFactory->check($request)) {
             ResponseType::JSON => $this->respondWithJson->respond(
@@ -44,6 +45,7 @@ readonly class GetCompletedAction
             ),
             ResponseType::HTML => $this->respondWithHtml->respond(
                 $completedItems,
+                $request,
                 $response,
             ),
         };
