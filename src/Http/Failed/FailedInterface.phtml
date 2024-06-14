@@ -1,7 +1,8 @@
 <?php
 
-use BuzzingPixel\Queue\Http\Completed\Details\DetailsUrlFactory;
-use BuzzingPixel\Queue\QueueNameWithCompletedItemsCollection;
+
+use BuzzingPixel\Queue\Http\Failed\Details\DetailsUrlFactory;
+use BuzzingPixel\Queue\QueueNameWithFailedItemsCollection;
 use BuzzingPixel\Templating\TemplateEngine;
 
 assert($this instanceof TemplateEngine);
@@ -13,7 +14,7 @@ assert($timezone instanceof DateTimeZone);
 assert(is_string($dateFormat));
 
 /** @noinspection PhpUndefinedVariableInspection */
-assert($items instanceof QueueNameWithCompletedItemsCollection);
+assert($items instanceof QueueNameWithFailedItemsCollection);
 
 /** @noinspection PhpUndefinedVariableInspection */
 assert($detailsUrlFactory instanceof DetailsUrlFactory);
@@ -46,27 +47,27 @@ assert(is_string($heading));
         <ul role="list" class="divide-y divide-gray-100">
             <?php if ($queue->items->count() < 1): ?>
                 <li class="relative flex justify-between gap-x-6 px-4 py-2 sm:px-6 font-extralight">
-                    no completed items from queue
+                    no failed items from queue
                 </li>
             <?php endif; ?>
-            <?php foreach ($queue->items->items as $completedItem): ?>
+            <?php foreach ($queue->items->items as $failedItem): ?>
                 <li class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-green-100 sm:px-6">
                     <div class="flex min-w-0 gap-x-4">
                         <div class="min-w-0 flex-auto">
                             <p class="text-sm font-semibold leading-6 text-gray-900">
-                                <a href="<?=$detailsUrlFactory->make($completedItem->key)?>">
+                                <a href="<?=$detailsUrlFactory->make($failedItem->key)?>">
                                     <span class="absolute inset-x-0 -top-px bottom-0"></span>
-                                    <?=$completedItem->queueItem->name?>
+                                    <?=$failedItem->queueItem->name?>
                                 </a>
                             </p>
                             <p class="mt-1 flex text-xs leading-5 text-gray-500">
                                 <span class="font-semibold mr-1">Handle:</span>
-                                <span class="text-emerald-600"><?=$completedItem->queueItem->handle?></span>
+                                <span class="text-emerald-600"><?=$failedItem->queueItem->handle?></span>
                             </p>
                             <p class="mt-1 flex text-xs leading-5 text-gray-500 sm:hidden">
                                 <span class="font-semibold mr-1">Finished:</span>
                                 <span class="text-emerald-600">
-                                    <?=$completedItem->date
+                                    <?=$failedItem->date
                                         ->setTimezone($timezone)
                                         ->format($dateFormat)?>
                                 </span>
@@ -79,7 +80,7 @@ assert(is_string($heading));
                                 Finished
                             </p>
                             <p class="mt-1 text-xs leading-5 text-emerald-600">
-                                <?=$completedItem->date
+                                <?=$failedItem->date
                                     ->setTimezone($timezone)
                                     ->format($dateFormat)?>
                             </p>

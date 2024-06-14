@@ -6,6 +6,8 @@ namespace BuzzingPixel\Queue\Http\Tabs;
 
 use BuzzingPixel\Queue\QueueNameWithCompletedItems;
 use BuzzingPixel\Queue\QueueNameWithCompletedItemsCollection;
+use BuzzingPixel\Queue\QueueNameWithFailedItems;
+use BuzzingPixel\Queue\QueueNameWithFailedItemsCollection;
 use BuzzingPixel\Queue\QueueNameWithItems;
 use BuzzingPixel\Queue\QueueNameWithItemsCollection;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,7 +21,7 @@ readonly class QueueHeadingTitleAndTabBuilder
     }
 
     public function render(
-        QueueNameWithItemsCollection|QueueNameWithCompletedItemsCollection $allItems,
+        QueueNameWithItemsCollection|QueueNameWithCompletedItemsCollection|QueueNameWithFailedItemsCollection $allItems,
         ServerRequestInterface $request,
         string $pageTitle,
     ): string {
@@ -34,7 +36,7 @@ readonly class QueueHeadingTitleAndTabBuilder
                 ),
             ],
             $allItems->map(static fn (
-                QueueNameWithItems|QueueNameWithCompletedItems $q,
+                QueueNameWithItems|QueueNameWithCompletedItems|QueueNameWithFailedItems $q,
             ) => new Tab(
                 $q->queueName,
                 $q->queueName,

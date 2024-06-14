@@ -9,6 +9,8 @@ use BuzzingPixel\Queue\Http\Completed\GetCompletedAction;
 use BuzzingPixel\Queue\Http\Css\GetCssAction;
 use BuzzingPixel\Queue\Http\Enqueued\Details\GetEnqueuedDetailsAction;
 use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
+use BuzzingPixel\Queue\Http\Failed\Details\GetFailedDetailsAction;
+use BuzzingPixel\Queue\Http\Failed\GetFailedAction;
 
 readonly class RoutesFactory
 {
@@ -29,6 +31,12 @@ readonly class RoutesFactory
                 $this->routePrefix,
             ),
             GetCompletedDetailsAction::createRoute(
+                $this->routePrefix,
+            ),
+            GetFailedAction::createRoute(
+                $this->routePrefix,
+            ),
+            GetFailedDetailsAction::createRoute(
                 $this->routePrefix,
             ),
         ]);

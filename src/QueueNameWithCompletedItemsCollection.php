@@ -40,9 +40,9 @@ readonly class QueueNameWithCompletedItemsCollection
     {
         $items = [];
 
-        $this->map(static function (QueueNameWithCompletedItems $item) use (
-            &$items,
-        ): void {
+        $this->map(static function (
+            QueueNameWithCompletedItems $item,
+        ) use (&$items): void {
             $item->items->map(
                 static function (QueueItemCompleted $item) use (
                     &$items,

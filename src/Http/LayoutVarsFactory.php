@@ -7,6 +7,7 @@ namespace BuzzingPixel\Queue\Http;
 use BuzzingPixel\Queue\Http\Completed\GetCompletedAction;
 use BuzzingPixel\Queue\Http\Css\GetCssAction;
 use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
+use BuzzingPixel\Queue\Http\Failed\GetFailedAction;
 use BuzzingPixel\Queue\Http\Routes\Route;
 use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
 
@@ -48,6 +49,12 @@ readonly class LayoutVarsFactory
             ) => $route->class === GetCompletedAction::class,
         )->first();
 
+        $failedRoute = $routes->filter(
+            static fn (
+                Route $route,
+            ) => $route->class === GetFailedAction::class,
+        )->first();
+
         return array_merge(
             [
                 'cssUri' => $cssRoute->pattern,
@@ -62,6 +69,11 @@ readonly class LayoutVarsFactory
                         'Completed',
                         $completedRoute->pattern,
                         $activeMenuItem === ActiveMenuItem::COMPLETED,
+                    ),
+                    new SidebarLink(
+                        'Failed',
+                        $failedRoute->pattern,
+                        $activeMenuItem === ActiveMenuItem::FAILED,
                     ),
                 ]),
             ],

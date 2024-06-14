@@ -8,4 +8,5 @@ enum ActiveMenuItem
 {
     case ENQUEUED;
     case COMPLETED;
+    case FAILED;
 }
