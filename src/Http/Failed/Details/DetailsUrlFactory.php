@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue\Http\Failed\Details;
 
-use BuzzingPixel\Queue\Http\Routes\Route;
 use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
 
 use function str_replace;
@@ -19,11 +18,9 @@ readonly class DetailsUrlFactory
     {
         $routes = $this->routesFactory->create();
 
-        $detailsRoute = $routes->filter(
-            static fn (
-                Route $route,
-            ) => $route->class === GetFailedDetailsAction::class,
-        )->first();
+        $detailsRoute = $routes->pluckClassName(
+            GetFailedDetailsAction::class,
+        );
 
         return str_replace(
             '{key}',

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BuzzingPixel\Queue\Http\Breadcrumbs;
 
 use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
-use BuzzingPixel\Queue\Http\Routes\Route;
 use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
 use BuzzingPixel\Templating\TemplateEngineFactory;
 
@@ -25,11 +24,9 @@ readonly class BreadcrumbsFactory
     {
         $routes = $this->routesFactory->create();
 
-        $enqueuedRoute = $routes->filter(
-            static fn (
-                Route $route,
-            ) => $route->class === GetEnqueuedAction::class,
-        )->first();
+        $enqueuedRoute = $routes->pluckClassName(
+            GetEnqueuedAction::class,
+        );
 
         $breadcrumbs = array_values(array_map(
             static fn (Breadcrumb $b) => $b,

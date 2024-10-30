@@ -11,6 +11,7 @@ use BuzzingPixel\Queue\Http\Enqueued\Details\GetEnqueuedDetailsAction;
 use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
 use BuzzingPixel\Queue\Http\Failed\Details\GetFailedDetailsAction;
 use BuzzingPixel\Queue\Http\Failed\GetFailedAction;
+use BuzzingPixel\Queue\Http\RedirectToEnqueued\RedirectToEnqueuedAction;
 
 readonly class RoutesFactory
 {
@@ -23,6 +24,7 @@ readonly class RoutesFactory
     {
         return new RouteCollection([
             GetCssAction::createRoute($this->routePrefix),
+            RedirectToEnqueuedAction::createRoute($this->routePrefix),
             GetEnqueuedAction::createRoute($this->routePrefix),
             GetEnqueuedDetailsAction::createRoute(
                 $this->routePrefix,

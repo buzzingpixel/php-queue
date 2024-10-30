@@ -43,6 +43,14 @@ readonly class RouteCollection
         ));
     }
 
+    /** @param class-string $className */
+    public function pluckClassName(string $className): Route
+    {
+        return $this->filter(
+            static fn (Route $route) => $route->class === $className,
+        )->first();
+    }
+
     public function first(): Route
     {
         return $this->routes[0];

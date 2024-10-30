@@ -10,7 +10,6 @@ use BuzzingPixel\Queue\Http\Breadcrumbs\BreadcrumbsFactory;
 use BuzzingPixel\Queue\Http\Completed\GetCompletedAction;
 use BuzzingPixel\Queue\Http\HttpPath;
 use BuzzingPixel\Queue\Http\LayoutVarsFactory;
-use BuzzingPixel\Queue\Http\Routes\Route;
 use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
 use BuzzingPixel\Queue\QueueItemCompleted;
 use BuzzingPixel\Templating\TemplateEngineFactory;
@@ -32,11 +31,9 @@ readonly class RespondWithHtml
     ): ResponseInterface {
         $routes = $this->routesFactory->create();
 
-        $completedRoute = $routes->filter(
-            static fn (
-                Route $route,
-            ) => $route->class === GetCompletedAction::class,
-        )->first();
+        $completedRoute = $routes->pluckClassName(
+            GetCompletedAction::class,
+        );
 
         $template = $this->templateEngineFactory->create()
             ->templatePath(DetailsPath::DETAILS_INTERFACE)

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BuzzingPixel\Queue\Http\Enqueued;
+namespace BuzzingPixel\Queue\Http\RedirectToEnqueued;
 
 use BuzzingPixel\Queue\Http\ResponseType;
 use BuzzingPixel\Queue\Http\ResponseTypeFactory;
@@ -11,13 +11,13 @@ use BuzzingPixel\Queue\Http\Routes\Route;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-readonly class GetEnqueuedAction
+readonly class RedirectToEnqueuedAction
 {
     public static function createRoute(string $routePrefix): Route
     {
         return new Route(
             RequestMethod::GET,
-            $routePrefix . '/enqueued',
+            $routePrefix,
             self::class,
         );
     }
@@ -26,7 +26,6 @@ readonly class GetEnqueuedAction
         private RespondWithHtml $respondWithHtml,
         private RespondWithJson $respondWithJson,
         private ResponseTypeFactory $responseTypeFactory,
-        private EnqueuedItemsFactory $enqueuedItemsFactory,
     ) {
     }
 
@@ -34,18 +33,11 @@ readonly class GetEnqueuedAction
         ServerRequestInterface $request,
         ResponseInterface $response,
     ): ResponseInterface {
-        $result = $this->enqueuedItemsFactory->createFromRequest(
-            $request,
-        );
-
         return match ($this->responseTypeFactory->check($request)) {
             ResponseType::JSON => $this->respondWithJson->respond(
-                $result,
                 $response,
             ),
             ResponseType::HTML => $this->respondWithHtml->respond(
-                $result,
-                $request,
                 $response,
             ),
         };

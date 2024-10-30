@@ -2,6 +2,7 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/dev-env/src" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="BuzzingPixel\Queue\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/lcobucci/clock" />
@@ -20,6 +21,40 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-escaper" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/php-cloneable" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/brick/math" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/buzzingpixel/php-template-engine" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/buzzingpixel/symfony-var-dumper-decorator" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/fig/http-message-util" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/filp/whoops" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/laminas/laminas-escaper" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/laravel/serializable-closure" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/nikic/fast-route" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/php-di/invoker" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/php-di/php-di" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/psr/http-server-handler" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/psr/http-server-middleware" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/ralouphie/getallheaders" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/ramsey/collection" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/ramsey/uuid" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/slim/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/slim/slim" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/spatie/php-cloneable" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/symfony/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/symfony/cache-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/symfony/deprecation-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/symfony/polyfill-php80" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/symfony/service-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/symfony/var-dumper" />
+      <excludeFolder url="file://$MODULE_DIR$/dev-env/vendor/symfony/var-exporter" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -8,7 +8,6 @@ use BuzzingPixel\Queue\Http\Completed\GetCompletedAction;
 use BuzzingPixel\Queue\Http\Css\GetCssAction;
 use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
 use BuzzingPixel\Queue\Http\Failed\GetFailedAction;
-use BuzzingPixel\Queue\Http\Routes\Route;
 use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
 
 use function array_merge;
@@ -31,29 +30,21 @@ readonly class LayoutVarsFactory
     ): array {
         $routes = $this->routesFactory->create();
 
-        $cssRoute = $routes->filter(
-            static fn (
-                Route $route,
-            ) => $route->class === GetCssAction::class,
-        )->first();
+        $cssRoute = $routes->pluckClassName(
+            GetCssAction::class,
+        );
 
-        $enqueuedRoute = $routes->filter(
-            static fn (
-                Route $route,
-            ) => $route->class === GetEnqueuedAction::class,
-        )->first();
+        $enqueuedRoute = $routes->pluckClassName(
+            GetEnqueuedAction::class,
+        );
 
-        $completedRoute = $routes->filter(
-            static fn (
-                Route $route,
-            ) => $route->class === GetCompletedAction::class,
-        )->first();
+        $completedRoute = $routes->pluckClassName(
+            GetCompletedAction::class,
+        );
 
-        $failedRoute = $routes->filter(
-            static fn (
-                Route $route,
-            ) => $route->class === GetFailedAction::class,
-        )->first();
+        $failedRoute = $routes->pluckClassName(
+            GetFailedAction::class,
+        );
 
         return array_merge(
             [
