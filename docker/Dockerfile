@@ -35,7 +35,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN docker-php-ext-install mbstring \
     && docker-php-ext-install zip \
     && docker-php-ext-install pcntl \
-    && docker-php-ext-install bcmath
+    && docker-php-ext-install bcmath \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 #
 # Install and configure nginx

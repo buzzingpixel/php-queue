@@ -14,3 +14,16 @@ services:
       - 80
     ports:
       - "63536:80"
+
+  redis:
+    container_name: php_queue_dev_redis
+    image: redis:7.2.3
+    volumes:
+      - redis-volume:/data
+    networks:
+      default:
+        aliases:
+          - php_queue_dev_redis
+
+volumes:
+  redis-volume:
