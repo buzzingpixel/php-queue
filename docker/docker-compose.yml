@@ -1,0 +1,16 @@
+services:
+  web:
+    container_name: php_queue_dev
+    image: php_queue_dev
+    environment:
+      - HOSTNAME=php_queue_dev
+      - ENABLE_XDEBUG=1
+      - ENABLE_PHP_DEV_CONFIG=1
+    volumes:
+      - ./.bash_history:/root/.bash_history
+      - ../dev-env:/var/www
+      - ../:/php-queue
+    expose:
+      - 80
+    ports:
+      - "63536:80"
