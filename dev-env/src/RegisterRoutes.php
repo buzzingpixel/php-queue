@@ -11,20 +11,13 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 
-class RegisterRoutes
+readonly class RegisterRoutes
 {
     public function register(
         RouteCollectorProxyInterface $routes,
         ContainerInterface $di,
     ): void {
-        $routes->get('/', function (
-            RequestInterface $request,
-            ResponseInterface $response,
-            $args
-        ) {
-            $response->getBody()->write("Hello world!");
-            return $response;
-        });
+        $routes->get('/', GetHomeAction::class);
 
         $queueRoutesFactory = $di->get(RoutesFactory::class);
         $queueRoutes = $queueRoutesFactory->create();

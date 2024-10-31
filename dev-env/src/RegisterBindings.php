@@ -14,7 +14,7 @@ use Psr\Container\ContainerInterface;
 use Redis;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
-class RegisterBindings
+readonly class RegisterBindings
 {
     public function register(ContainerBindings $bindings): void
     {
