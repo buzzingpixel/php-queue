@@ -7,8 +7,6 @@ namespace App;
 use BuzzingPixel\Queue\Http\Routes\Route;
 use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 
 readonly class RegisterRoutes

@@ -35,7 +35,7 @@ readonly class RegisterBindings
 
         $bindings->addBinding(
             Redis::class,
-            static function (ContainerInterface $container): Redis {
+            static function (): Redis {
                 $redis = new Redis();
 
                 $redis->connect('php_queue_dev_redis');

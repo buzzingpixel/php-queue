@@ -7,7 +7,7 @@ namespace App;
 use DI\Definition\Helper\AutowireDefinitionHelper;
 use DI\Definition\Reference;
 use function DI\autowire;
-use function DI\get;
+use function DI\get as resolveFromContainer;
 
 class ContainerBindings
 {
@@ -51,6 +51,6 @@ class ContainerBindings
 
     public function resolveFromContainer(string $to): Reference
     {
-        return get($to);
+        return resolveFromContainer($to);
     }
 }
