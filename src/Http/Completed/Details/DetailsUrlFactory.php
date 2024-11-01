@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BuzzingPixel\Queue\Http\Completed\Details;
 
-use BuzzingPixel\Queue\Http\Enqueued\Details\GetEnqueuedDetailsAction;
 use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
 
 use function str_replace;
@@ -20,7 +19,7 @@ readonly class DetailsUrlFactory
         $routes = $this->routesFactory->create();
 
         $detailsRoute = $routes->pluckClassName(
-            GetEnqueuedDetailsAction::class,
+            GetCompletedDetailsAction::class,
         );
 
         return str_replace(
