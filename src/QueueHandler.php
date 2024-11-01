@@ -65,4 +65,6 @@ interface QueueHandler
     public function getFailedItemsFromAllQueues(): QueueNameWithFailedItemsCollection;
 
     public function findFailedItemByKey(string $key): QueueItemFailedResult;
+
+    public function retryFailedItemByKey(string $key): RetryFailedItemResult;
 }

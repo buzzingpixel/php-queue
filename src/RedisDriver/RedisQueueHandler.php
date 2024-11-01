@@ -23,6 +23,7 @@ use BuzzingPixel\Queue\QueueNameWithItems;
 use BuzzingPixel\Queue\QueueNameWithItemsCollection;
 use BuzzingPixel\Queue\RedisDriver\Consume\Consume;
 use BuzzingPixel\Queue\RedisDriver\Consume\DeQueue;
+use BuzzingPixel\Queue\RetryFailedItemResult;
 
 use function array_map;
 use function array_values;
@@ -41,6 +42,7 @@ readonly class RedisQueueHandler implements QueueHandler
         private FailedItemByKey $failedItemByKey,
         private EnqueuedItemByKey $enqueuedItemByKey,
         private CompletedItemByKey $completedItemByKey,
+        private RetryFailedItemByKey $retryFailedItemByKey,
     ) {
     }
 
@@ -197,5 +199,10 @@ readonly class RedisQueueHandler implements QueueHandler
     public function findFailedItemByKey(string $key): QueueItemFailedResult
     {
         return $this->failedItemByKey->find($key);
+    }
+
+    public function retryFailedItemByKey(string $key): RetryFailedItemResult
+    {
+        return $this->retryFailedItemByKey->retry($key);
     }
 }
