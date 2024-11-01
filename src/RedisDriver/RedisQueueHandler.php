@@ -10,6 +10,7 @@ use BuzzingPixel\Queue\QueueItem;
 use BuzzingPixel\Queue\QueueItemCompletedCollection;
 use BuzzingPixel\Queue\QueueItemCompletedResult;
 use BuzzingPixel\Queue\QueueItemFailedCollection;
+use BuzzingPixel\Queue\QueueItemFailedResult;
 use BuzzingPixel\Queue\QueueItemJob;
 use BuzzingPixel\Queue\QueueItemJobCollection;
 use BuzzingPixel\Queue\QueueItemResult;
@@ -37,6 +38,7 @@ readonly class RedisQueueHandler implements QueueHandler
         private FailedItems $failedItems,
         private EnqueuedItems $enqueuedItems,
         private CompletedItems $completedItems,
+        private FailedItemByKey $failedItemByKey,
         private EnqueuedItemByKey $enqueuedItemByKey,
         private CompletedItemByKey $completedItemByKey,
     ) {
@@ -190,5 +192,10 @@ readonly class RedisQueueHandler implements QueueHandler
         }
 
         return new QueueNameWithFailedItemsCollection($queues);
+    }
+
+    public function findFailedItemByKey(string $key): QueueItemFailedResult
+    {
+        return $this->failedItemByKey->find($key);
     }
 }

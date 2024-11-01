@@ -10,6 +10,7 @@ use BuzzingPixel\Queue\Http\Css\GetCssAction;
 use BuzzingPixel\Queue\Http\Enqueued\Details\GetEnqueuedDetailsAction;
 use BuzzingPixel\Queue\Http\Enqueued\GetEnqueuedAction;
 use BuzzingPixel\Queue\Http\Failed\Details\GetFailedDetailsAction;
+use BuzzingPixel\Queue\Http\Failed\Details\Retry\PostRetryFailedAction;
 use BuzzingPixel\Queue\Http\Failed\GetFailedAction;
 use BuzzingPixel\Queue\Http\RedirectToEnqueued\RedirectToEnqueuedAction;
 
@@ -39,6 +40,9 @@ readonly class RoutesFactory
                 $this->routePrefix,
             ),
             GetFailedDetailsAction::createRoute(
+                $this->routePrefix,
+            ),
+            PostRetryFailedAction::createRoute(
                 $this->routePrefix,
             ),
         ]);

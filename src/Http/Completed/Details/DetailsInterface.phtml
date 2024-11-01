@@ -1,7 +1,6 @@
 <?php
 
 use BuzzingPixel\Queue\QueueItemCompleted;
-use BuzzingPixel\Queue\QueueItemWithKey;
 use BuzzingPixel\Templating\TemplateEngine;
 
 assert($this instanceof TemplateEngine);
@@ -60,7 +59,7 @@ assert($queueItem instanceof QueueItemCompleted);
                                     <div class="font-medium block pb-2">
                                         <?=$job->class?>::<?=$job->method?>
                                     </div>
-                                    <pre class="p-8 bg-gray-700 text-amber-300"><code><?=json_encode($job->context, JSON_PRETTY_PRINT)?></code></pre>
+                                    <pre class="p-8 bg-gray-700 text-amber-300 overflow-x-scroll"><code><?=json_encode($job->context, JSON_PRETTY_PRINT)?></code></pre>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

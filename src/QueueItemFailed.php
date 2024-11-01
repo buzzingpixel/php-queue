@@ -6,11 +6,14 @@ namespace BuzzingPixel\Queue;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Spatie\Cloneable\Cloneable;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
 readonly class QueueItemFailed
 {
+    use Cloneable;
+
     public function __construct(
         public string $key,
         public string $message,
@@ -24,6 +27,11 @@ readonly class QueueItemFailed
     ) {
     }
 
+    public function withRetried(bool $retried = true): QueueItemFailed
+    {
+        return $this->with(retried: $retried);
+    }
+
     /** @phpstan-ignore-next-line */
     public function asArray(): array
     {
@@ -35,7 +43,7 @@ readonly class QueueItemFailed
             'line' => $this->line,
             'trace' => $this->trace,
             'queueItem' => $this->queueItem->asArray(),
-            'retired' => $this->retried,
+            'retried' => $this->retried,
             'date' => $this->date->format(DateTimeInterface::ATOM),
         ];
     }
