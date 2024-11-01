@@ -38,6 +38,15 @@ readonly class Consume
 
         $lockResult = $this->lock->obtainForNext($queueName);
 
+        if (! $lockResult->hasLock) {
+            $this->config->logger->debug(
+                'There are no items in queue',
+                ['queueName' => $queueName],
+            );
+
+            return;
+        }
+
         $queueItemResult = $this->enqueuedItemByKey->find(
             $lockResult->consumeKeySymfony,
         );
