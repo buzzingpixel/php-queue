@@ -7,9 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 ### Added
-- Add an HTTP interface for viewing and managing enqueued, completed, and failed items (see readme for how to implement and access routing), as well as JSON output
-- Added method `enqueueJob` to the `QueueHandler` interface and implemented it in `RedisQueueHandler` implementation — this method simplifies adding a single job onto a queue
-- Added method `getEnqueuedItemsFromAllQueues` to the `QueueHandler` interface and implemented it in `RedisQueueHandler` implementation
+- Added an HTTP interface for viewing and managing enqueued, completed, and failed items (see readme for how to implement and access routing), as well as JSON output
+- Added method `enqueueJob` to the `QueueHandler` interface — this method simplifies adding a single job onto a queue
+- Added method `getEnqueuedItemsFromAllQueues` to the `QueueHandler` interface
+- Added method `findEnqueuedItemByKey` to the `QueueHandler` interface
+- Added method `getEnqueuedItemsFromAllQueues` to the `QueueHandler` interface
+- Added method `getCompletedItems` to the `QueueHandler` interface
+- Added method `findCompletedItemByKey` to the `QueueHandler` interface
+- Added method `getCompletedItemsFromAllQueues` to the `QueueHandler` interface
+- Added method `getFailedItems` to the `QueueHandler` interface
+- Added method `getFailedItemsFromAllQueues` to the `QueueHandler` interface
+- Added method `findFailedItemByKey` to the `QueueHandler` interface
+- Added method `retryFailedItemByKey` to the `QueueHandler` interface
 - Added a `QueueConfig` class for configuring various aspects of the queuing system (see readme for how to implement)
 - Completed Queue items are now saved for a period of time
 - Failed Queue items are now saved for a period of time
