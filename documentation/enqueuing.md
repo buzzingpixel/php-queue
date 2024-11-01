@@ -1,6 +1,6 @@
 # Enqueuing
 
-When you wish to enqueue something, call up the `\BuzzingPixel\Queue\QueueHandler` in your code and add a `\BuzzingPixel\Queue\QueueItem` via the `enqueue` method or the `enqueueJob` method. You can optionally provide a queue name that you wish the `QueueItem` you're adding to run on.
+When you wish to enqueue something, request the `\BuzzingPixel\Queue\QueueHandler` in your class constructor.
 
 ## `enqueueJob`
 
