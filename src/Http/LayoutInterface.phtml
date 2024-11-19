@@ -1,0 +1,100 @@
+<?php
+
+use BuzzingPixel\Queue\Http\HttpPath;
+use BuzzingPixel\Queue\Http\SidebarLinksCollection;
+use BuzzingPixel\Templating\TemplateEngine;
+
+assert($this instanceof TemplateEngine);
+/** @noinspection PhpUndefinedVariableInspection */
+assert(is_string($cssUri));
+/** @noinspection PhpUndefinedVariableInspection */
+assert(is_string($pageTitle));
+/** @noinspection PhpUndefinedVariableInspection */
+assert($sidebarLinks instanceof SidebarLinksCollection);
+
+$sidebarLinksHtml = $this->partial(HttpPath::SIDEBAR_PARTIAL, [
+    'sidebarLinks' => $sidebarLinks,
+]);
+?>
+
+<!doctype html>
+<html lang="en" class="h-full bg-white">
+<head>
+    <title><?=$pageTitle?> | Queue</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link
+        rel="stylesheet"
+        href="<?=$cssUri?>"
+    >
+</head>
+<body class="h-full">
+<div>
+    <?php // Mobile sidebar ?>
+    <div
+        class="relative z-50 hidden lg:hidden"
+        role="dialog"
+        aria-modal="true"
+        data-ref="mobileMenu"
+    >
+        <div class="fixed inset-0 bg-gray-900/80"></div>
+
+        <div class="fixed inset-0 flex">
+            <div class="relative mr-16 flex w-full max-w-xs flex-1">
+                <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
+                    <button
+                        type="button"
+                        class="-m-2.5 p-2.5"
+                        onclick="closeMobileMenu()"
+                    >
+                        <span class="sr-only">Close menu</span>
+                        <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <?= $sidebarLinksHtml ?>
+            </div>
+        </div>
+    </div>
+
+    <?php // Desktop sidebar ?>
+    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+        <?= $sidebarLinksHtml ?>
+    </div>
+
+    <div class="lg:pl-72">
+        <div>
+            <button
+                type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden ml-2 mt-2"
+                onclick="openMobileMenu()"
+            >
+                <span class="sr-only">Open menu</span>
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+
+        <main class="py-6 max-w-5xl">
+            <div class="px-4 sm:px-6 lg:px-8">
+                <?= $this->getSection('layoutContent') ?>
+            </div>
+        </main>
+    </div>
+</div>
+<script type="text/javascript">
+    const mobileMenu = document.querySelector('[data-ref="mobileMenu"]');
+
+    const openMobileMenu = () => {
+        mobileMenu.classList.remove('hidden');
+    };
+
+    const closeMobileMenu = () => {
+        mobileMenu.classList.add('hidden');
+    };
+</script>
+</body>
+</html>

@@ -12,13 +12,13 @@ use function count;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-class QueueItemJobCollection
+readonly class QueueItemJobCollection
 {
     /** @var QueueItemJob[] $queueItemJobs */
     public array $queueItemJobs;
 
     /** @param QueueItemJob[] $queueItemJobs */
-    public function __construct(array $queueItemJobs)
+    public function __construct(array $queueItemJobs = [])
     {
         if (count($queueItemJobs) < 1) {
             throw new RuntimeException(
@@ -30,6 +30,11 @@ class QueueItemJobCollection
             static fn (QueueItemJob $q) => $q,
             $queueItemJobs,
         ));
+    }
+
+    public function count(): int
+    {
+        return count($this->queueItemJobs);
     }
 
     /** @phpstan-ignore-next-line */

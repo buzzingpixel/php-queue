@@ -52,6 +52,44 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer" />
       <path value="$PROJECT_DIR$/vendor/mnapoli/silly" />
       <path value="$PROJECT_DIR$/vendor/php-di/invoker" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/spatie/php-cloneable" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-escaper" />
+      <path value="$PROJECT_DIR$/vendor/buzzingpixel/php-template-engine" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/laravel/serializable-closure" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/spatie/php-cloneable" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/buzzingpixel/symfony-var-dumper-decorator" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/brick/math" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/fig/http-message-util" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/laminas/laminas-escaper" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/ramsey/uuid" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/ramsey/collection" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/filp/whoops" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/slim/slim" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/php-di/php-di" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/php-di/invoker" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/psr/http-server-middleware" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/psr/http-server-handler" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/slim/psr7" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/composer" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/psr/clock" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/buzzingpixel/php-template-engine" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/symfony/cache-contracts" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/dev-env/vendor/symfony/deprecation-contracts" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

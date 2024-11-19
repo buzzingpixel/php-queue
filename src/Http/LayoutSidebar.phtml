@@ -1,0 +1,51 @@
+<?php
+
+use BuzzingPixel\Queue\Http\SidebarLinksCollection;
+use BuzzingPixel\Templating\TemplateEngine;
+
+assert($this instanceof TemplateEngine);
+/** @noinspection PhpUndefinedVariableInspection */
+assert($sidebarLinks instanceof SidebarLinksCollection);
+?>
+
+<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-50 px-6 pb-4 border-r border-gray-200 pt-6">
+    <nav class="flex flex-1 flex-col">
+        <ul role="list" class="-mx-2 space-y-1">
+            <?php foreach ($sidebarLinks->links as $link): ?>
+                <?php
+                    $linkClasses = [
+                        'group',
+                        'flex',
+                        'gap-x-3',
+                        'rounded-md',
+                        'p-2',
+                        'text-sm',
+                        'leading-6',
+                        'font-semibold',
+                    ];
+
+                    if ($link->isActive) {
+                        $linkClasses = array_merge($linkClasses, [
+                            'bg-green-100',
+                            'text-emerald-700',
+                        ]);
+                    } else {
+                        $linkClasses = array_merge($linkClasses, [
+                            'text-gray-700',
+                            'hover:text-emerald-600',
+                            'hover:bg-green-100',
+                        ]);
+                    }
+                ?>
+                <li>
+                    <a
+                        href="<?=$link->href?>"
+                        class="<?=implode(' ', $linkClasses)?>"
+                    >
+                        <?=$link->content?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </nav>
+</div>

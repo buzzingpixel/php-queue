@@ -6,10 +6,6 @@ namespace BuzzingPixel\Queue;
 
 interface QueueHandler
 {
-    public const JOBS_EXPIRES_AFTER_SECONDS = 3600;
-
-    public function jobsExpiresAfterSeconds(): int;
-
     /** @return string[] */
     public function getAvailableQueues(): array;
 
@@ -24,8 +20,25 @@ interface QueueHandler
         string $queueName = 'default',
     ): QueueItemWithKeyCollection;
 
+    public function findEnqueuedItemByKey(string $key): QueueItemResult;
+
+    public function getEnqueuedItemsFromAllQueues(): QueueNameWithItemsCollection;
+
     public function enqueue(
         QueueItem $queueItem,
+        string $queueName = 'default',
+    ): bool;
+
+    /**
+     * @param class-string $class
+     * @param mixed[]      $context Must be `json_encode`-able
+     */
+    public function enqueueJob(
+        string $handle,
+        string $name,
+        string $class,
+        string $method = '__invoke',
+        array $context = [],
         string $queueName = 'default',
     ): bool;
 
@@ -36,4 +49,22 @@ interface QueueHandler
     public function consumeNext(
         string $queueName = 'default',
     ): void;
+
+    public function getCompletedItems(
+        string $queueName = 'default',
+    ): QueueItemCompletedCollection;
+
+    public function findCompletedItemByKey(string $key): QueueItemCompletedResult;
+
+    public function getCompletedItemsFromAllQueues(): QueueNameWithCompletedItemsCollection;
+
+    public function getFailedItems(
+        string $queueName = 'default',
+    ): QueueItemFailedCollection;
+
+    public function getFailedItemsFromAllQueues(): QueueNameWithFailedItemsCollection;
+
+    public function findFailedItemByKey(string $key): QueueItemFailedResult;
+
+    public function retryFailedItemByKey(string $key): RetryFailedItemResult;
 }

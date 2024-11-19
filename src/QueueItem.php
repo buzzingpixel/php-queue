@@ -8,7 +8,7 @@ use RuntimeException;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-class QueueItem
+readonly class QueueItem
 {
     public function __construct(
         public string $handle,

@@ -7,7 +7,7 @@ namespace BuzzingPixel\Queue;
 use Psr\Log\LoggerInterface;
 use Stringable;
 
-class NoOpLogger implements LoggerInterface
+readonly class NoOpLogger implements LoggerInterface
 {
     /** @inheritDoc */
     public function emergency(Stringable|string $message, array $context = [])

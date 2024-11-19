@@ -6,7 +6,7 @@ namespace BuzzingPixel\Queue;
 
 use function in_array;
 
-class QueueNamesDefault implements QueueNames
+readonly class QueueNamesDefault implements QueueNames
 {
     /** @inheritDoc */
     public function getAvailableQueues(): array

@@ -6,13 +6,16 @@ namespace BuzzingPixel\Queue;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
-class QueueItemWithKey
+
+readonly class QueueItemWithKey
 {
     public static function fromQueueItem(
+        string $queueName,
         string $key,
         QueueItem $queueItem,
     ): self {
         return new self(
+            $queueName,
             $key,
             $queueItem->handle,
             $queueItem->name,
@@ -21,6 +24,7 @@ class QueueItemWithKey
     }
 
     public function __construct(
+        public string $queueName,
         public string $key,
         public string $handle,
         public string $name,
