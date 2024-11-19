@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2.0.0 — 2024-11-19
 ### Added
 - Added an HTTP interface for viewing and managing enqueued, completed, and failed items (see readme for how to implement and access routing), as well as JSON output
 - Added method `enqueueJob` to the `QueueHandler` interface — this method simplifies adding a single job onto a queue
