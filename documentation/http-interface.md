@@ -52,3 +52,23 @@ $queueRoutes->map(
 
 $app->run();
 ```
+
+## Changing the route prefix
+
+By default, the routes for the queue are at `/buzzingpixel-queue`. This can be changed via the constructor of the `RoutesFactory`. Here's an example of changing it to just `queue` via the PSR Container:
+
+```php
+use BuzzingPixel\Queue\Http\Routes\RoutesFactory;
+use DateTimeZone;
+use DI\ContainerBuilder;
+
+use function DI\autowire;
+
+$di = (new ContainerBuilder())
+    ->useAutowiring(true)
+    ->addDefinitions([
+        RoutesFactory::class => autowire(RoutesFactory::class)
+            ->constructorParameter('routePrefix', '/queue'),
+    ])
+    ->build();
+```
