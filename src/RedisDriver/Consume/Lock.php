@@ -34,16 +34,15 @@ readonly class Lock
         foreach ($enqueuedKeys->enqueuedKeys as $key) {
             $lockKeyRaw = 'lock_' . $key;
 
-            $lockObtained = $this->redis->setnx($lockKeyRaw, 'true');
+            $lockObtained = $this->redis->set(
+                $lockKeyRaw,
+                'true',
+                ['nx', 'ex' => $this->config->jobsExpiresAfterSeconds],
+            );
 
-            if (! $lockObtained) {
+            if ($lockObtained !== true) {
                 continue;
             }
-
-            $this->redis->expire(
-                $lockKeyRaw,
-                $this->config->jobsExpiresAfterSeconds,
-            );
 
             $consumeKeyRaw = $key;
 
